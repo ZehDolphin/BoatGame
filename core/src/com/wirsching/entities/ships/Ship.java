@@ -31,6 +31,16 @@ public class Ship extends Entity {
 	 * Measured in pixels per second.
 	 */
 	public float currentSpeed = 0.0f;
+	
+	/**
+	 * The direction of which this ship is drifting.
+	 */
+	public float driftDirection = 0.0f;
+	
+	/**
+	 * The drift speed.
+	 */
+	public float driftSpeed = 0.0f;
 
 	public Ship(float x, float y) {
 		setX(x);
@@ -40,6 +50,7 @@ public class Ship extends Entity {
 	public Ship(float x, float y, float width, float height) {
 		super(x, y, width, height);
 	}
+	
 
 	public float radius = Float.max(getWidth(), getHeight()) / 2 + 1;
 
@@ -53,9 +64,14 @@ public class Ship extends Entity {
 			currentSpeed = 0;
 		}
 		
+		
+		driftSpeed *= (57f * Graphics.getDelta());
+		if (Math.abs(driftSpeed) < 0.1) {
+			driftSpeed = 0;
+		}
 
-		setX((float) (getX() + Math.cos(rotation + 90) * currentSpeed * Graphics.getDelta()));
-		setY((float) (getY() + Math.sin(rotation + 90) * currentSpeed * Graphics.getDelta()));
+		setX((float) (getX() + Math.cos(rotation + 90) * currentSpeed * Graphics.getDelta() + Math.cos(driftDirection + 90) * driftSpeed * Graphics.getDelta()));
+		setY((float) (getY() + Math.sin(rotation + 90) * currentSpeed * Graphics.getDelta() + Math.sin(driftDirection + 90) * driftSpeed * Graphics.getDelta()));
 
 		
 		for (Entity e : EntityHandler.entities) {
@@ -68,13 +84,14 @@ public class Ship extends Entity {
 			if (distance > radius * 10)
 				continue;
 
-			float angle = Math.getAngle(getPosition(), e.getPosition());
+//			float angle = Math.getAngle(getPosition(), e.getPosition());
 
 			if (distance - (radius) - (s.radius) < 0) {
-				e.setX((float) (e.getX() + Math.cos(angle) * (distance * 10) * Graphics.getDelta()));
-				e.setY((float) (e.getY() + Math.sin(angle) * (distance * 10) * Graphics.getDelta()));
-
-				setCurrentSpeed(getCurrentSpeed() * 0.9f);
+				s.driftDirection = rotation;
+				s.driftSpeed = (currentSpeed * 1.3f);
+				
+				// "break" the ship
+				setCurrentSpeed(getCurrentSpeed() * 0.1f);
 			}
 		}
 	}

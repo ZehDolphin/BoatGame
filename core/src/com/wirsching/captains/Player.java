@@ -5,6 +5,11 @@ import com.wirsching.entities.EntityHandler;
 import com.wirsching.entities.ships.Ship;
 import com.wirsching.input.Keys;
 
+
+/**
+ * The local player.
+ *
+ */
 public class Player extends Captain {
 
 	public Player() {
@@ -26,6 +31,10 @@ public class Player extends Captain {
 		} else if (!Gdx.input.isKeyPressed(Keys.RIGHT_ARROW) && !toggle) {
 			toggle = true;
 		}
+		
+		
+		
+		
 		
 		if (Gdx.input.isKeyPressed(Keys.FORWARD)) {
 			getCurrentShip().moveForward();

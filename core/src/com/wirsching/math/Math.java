@@ -20,7 +20,7 @@ public class Math {
 	}
 
 	public static float getAngle(Point2f p1, Point2f p2) {
-		float angle = (float) Math.toDegrees((Float) Math.atan2(p2.getY() - p1.getY(), p2.getX() - p1.getX()));
+		float angle = (float) Math.toDegrees(Math.atan2(p2.getY() - p1.getY(), p2.getX() - p1.getX()));
 	    if(angle < 0){
 	        angle += 360;
 	    }
@@ -39,8 +39,8 @@ public class Math {
 		return (float) java.lang.Math.toRadians((double) deg);
 	}
 	
-	public static Object atan2(float f, float g) {
-		return java.lang.Math.atan2(f, g);
+	public static float atan2(float f, float g) {
+		return (float) java.lang.Math.atan2(f, g);
 	}
 
 }
