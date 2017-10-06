@@ -3,6 +3,7 @@ package com.wirsching;
 import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.wirsching.graphics.SpriteSheet;
 
@@ -36,6 +37,7 @@ public class Resources {
 	
 	public static void load() {
 		add("boats", new SpriteSheet("textures/boats"));
+		add("gui_panel", new SpriteSheet(new Texture("textures/window.png")).loadGrid(10, 10));
 	}
 	
 	

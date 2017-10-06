@@ -27,6 +27,11 @@ public class Math {
 	    return angle;
 	}
 	
+	public static float getTrueAngle(Point2f p1, Point2f p2) {
+		float angle = (float) Math.toDegrees((float) java.lang.Math.atan((p2.getY() - p1.getY()) / (p2.getX() - p1.getX())));
+		return angle;
+	}
+	
 	public static float abs(float f) {
 		return java.lang.Math.abs(f);
 	}

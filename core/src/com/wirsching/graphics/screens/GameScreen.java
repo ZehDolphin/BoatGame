@@ -9,11 +9,16 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.wirsching.Resources;
 import com.wirsching.captains.Player;
 import com.wirsching.entities.EntityHandler;
+import com.wirsching.entities.ships.MetalBoat;
 import com.wirsching.entities.ships.OakBoat;
+import com.wirsching.entities.turrets.StoneThrower;
 import com.wirsching.graphics.Camera;
 import com.wirsching.graphics.Graphics;
 import com.wirsching.graphics.Screen;
+import com.wirsching.graphics.gui.GuiHandler;
+import com.wirsching.graphics.gui.GuiPanel;
 import com.wirsching.input.Keys;
+import com.wirsching.input.Mouse;
 import com.wirsching.math.Math;
 import com.wirsching.math.Point2f;
 
@@ -29,20 +34,25 @@ public class GameScreen extends Screen {
 		setId("GAME");
 		
 		Gdx.graphics.setVSync(true);
-//		Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+
 		
 		Graphics.setSpriteBatch(new SpriteBatch());
 		Graphics.setShapeRenderer(new ShapeRenderer());
 		
 		camera = new Camera();
+		Mouse.setCurrentCamera(camera.camera);
 
 		
-		EntityHandler.addEntity(new OakBoat(0, 0));
+		EntityHandler.addEntity(new OakBoat(0, 0).addTurret(0, new StoneThrower()));
 		EntityHandler.addEntity(new OakBoat(100, 0));
+		EntityHandler.addEntity(new MetalBoat(-100, 0).addTurret(0, new StoneThrower()).addTurret(1, new StoneThrower()));
 		
 		grid = new TextureRegion(new Texture("textures/grid.png"));
 		
 		player = new Player();
+		
+		
+		GuiHandler.addGui(new GuiPanel(100, 100, 100, 100));
 		
 	}
 	
@@ -90,6 +100,7 @@ public class GameScreen extends Screen {
 		
 		player.update();
 		EntityHandler.update();
+		GuiHandler.update();
 	}
 
 	
@@ -102,22 +113,22 @@ public class GameScreen extends Screen {
 		
 		
 		
-		
 		Graphics.begin();
 		{
 			
 			
-			int w = (int) (camera.camera.viewportWidth / grid.getRegionWidth()) + 3;
-			int h = (int) (camera.camera.viewportHeight / grid.getRegionHeight()) + 3;
+			int w = (int) (camera.camera.viewportWidth / grid.getRegionWidth()) + 5;
+			int h = (int) (camera.camera.viewportHeight / grid.getRegionHeight()) + 5;
 			for (int x = 0; x < w; x++) {
 				for (int y = 0; y < h; y++) {
-					Graphics.drawTexture(grid, (x + (int) (camera.getX() / grid.getRegionWidth()) - 2) * grid.getRegionWidth(), (y + (int) (camera.getY() / grid.getRegionHeight()) - 1) * grid.getRegionHeight());
+					Graphics.drawTexture(grid, (x + (int) (camera.getX() / grid.getRegionWidth()) - 3) * grid.getRegionWidth(), (y + (int) (camera.getY() / grid.getRegionHeight()) - 2) * grid.getRegionHeight());
 				}
 			}
 			
 
 			
 			EntityHandler.render();
+			GuiHandler.draw();
 			
 			
 		}

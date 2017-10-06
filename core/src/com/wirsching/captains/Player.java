@@ -3,7 +3,11 @@ package com.wirsching.captains;
 import com.badlogic.gdx.Gdx;
 import com.wirsching.entities.EntityHandler;
 import com.wirsching.entities.ships.Ship;
+import com.wirsching.entities.turrets.Turret;
 import com.wirsching.input.Keys;
+import com.wirsching.input.Mouse;
+import com.wirsching.math.Math;
+import com.wirsching.math.Point2f;
 
 
 /**
@@ -33,8 +37,12 @@ public class Player extends Captain {
 		}
 		
 		
-		
-		
+		// Rotate all turrets on the ship to the mouse pointer.
+		for (int i = 0; i < getCurrentShip().getSlots(); i++) {
+			Turret t = getCurrentShip().getTurret(i);
+			if (t != null) 
+				t.rotateToTarget(Math.getAngle(new Point2f(getCurrentShip().getX() + t.getPosition().getX(), getCurrentShip().getY() + t.getPosition().getY()), Mouse.getPosition()));
+		}
 		
 		if (Gdx.input.isKeyPressed(Keys.FORWARD)) {
 			getCurrentShip().moveForward();

@@ -5,22 +5,22 @@ import com.wirsching.Resources;
 import com.wirsching.entities.Tag;
 import com.wirsching.graphics.Graphics;
 
-public class OakBoat extends Ship {
+public class MetalBoat extends Ship {
 
 	private TextureRegion texture;
 	
-	public OakBoat(float x, float y) {
+	public MetalBoat(float x, float y) {
 		super(x, y);
-		setWidth(15);
-		setHeight(18);
+		setDimensions(15, 27);
 		addTag(Tag.DYNAMIC);
-		setRotationSpeed(180);
-		setAcceleration(1000f);
+		setRotationSpeed(150);
+		setAcceleration(500f);
 		setMaxSpeed(100f);
 		
-		setUpgradeSlots(new UpgradeSlot(0, 0));
+		setUpgradeSlots(new UpgradeSlot(0, -10), new UpgradeSlot(0, 6));
 		
-		texture = Resources.getTextureRegion("boats/oak_boat");
+		texture = Resources.getTextureRegion("boats/metal_boat");
+		
 	}
 
 	@Override

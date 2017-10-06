@@ -3,6 +3,8 @@ package com.wirsching.entities;
 import java.util.ArrayList;
 
 import com.wirsching.graphics.Drawable;
+import com.wirsching.graphics.Graphics;
+import com.wirsching.math.Math;
 import com.wirsching.math.Rectangle;
 
 public class Entity extends Rectangle implements Drawable {
@@ -17,6 +19,16 @@ public class Entity extends Rectangle implements Drawable {
 	 * A unique identifier for each entity.
 	 */
 	public int id = EntityHandler.generateEntityID();
+	
+	/**
+	 * Rotation measured in degrees relative to the world.
+	 */
+	private float rotation = 360f * 10000f;
+	
+	/**
+	 * Measured in degrees per second.
+	 */
+	private float rotationSpeed = 180.0f;
 	
 	public Entity() {
 	}
@@ -35,6 +47,74 @@ public class Entity extends Rectangle implements Drawable {
 	 * Updates the entity.
 	 */
 	public void update() {
+	}
+	
+	/**
+	 * Sets the rotation and adds 3600000 deg to it.
+	 */
+	public void setRotation(float rotation) {
+		this.rotation = rotation + 360 * 10000f;
+	}
+	
+	/**
+	 * Get the current rotation.
+	 */
+	public float getRotation() {
+		return rotation;
+	}
+	
+	/**
+	 * Get the current rotation speed, to get the speed for one frame, multiply with delta.
+	 */
+	public float getRotationSpeed() {
+		return rotationSpeed;
+	}
+
+	/**
+	 * Set the current rotation speed.
+	 * @param rotationSpeed - deg per second
+	 */
+	public void setRotationSpeed(float rotationSpeed) {
+		this.rotationSpeed = rotationSpeed;
+	}
+	
+	/**
+	 * Rotate by a certain amount of degrees.
+	 */
+	public void rotate(float deg) {
+		rotation += deg;
+	}
+	
+	/**
+	 * Rotate to the right using the rotation speed.
+	 */
+	public void rotateRight() {
+		rotation -= rotationSpeed * Graphics.getDelta();
+	}
+
+	/**
+	 * Rotate to the left using the rotation speed.
+	 */
+	public void rotateLeft() {
+		rotation += rotationSpeed * Graphics.getDelta();
+	}
+	
+	/**
+	 * Rotate to a certain angle using the rotation speed.
+	 */
+	public void rotateToTarget(float targetAngle) {
+		float angle = getRotation() % 360;
+		
+		float angleDelta = (angle - targetAngle);
+		if (angleDelta > 180) angleDelta -= 360;
+		if (angleDelta < -180) angleDelta += 360;
+
+		if (angleDelta < 0)
+			rotateLeft();
+		if (angleDelta > 0)
+			rotateRight();
+		if (Math.abs(angleDelta) < getRotationSpeed() * Graphics.getDelta())
+			setRotation(targetAngle);
 	}
 	
 	/**

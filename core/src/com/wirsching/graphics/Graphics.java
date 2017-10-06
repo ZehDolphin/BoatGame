@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Matrix4;
+import com.wirsching.graphics.screens.GameScreen;
 import com.wirsching.math.Point2f;
 
 public class Graphics {
@@ -13,6 +14,7 @@ public class Graphics {
 	private static SpriteBatch sb;
 	private static ShapeRenderer sr;
 	
+
 	public static void setSpriteBatch(SpriteBatch sb) {
 		Graphics.sb = sb;
 	}
@@ -65,6 +67,10 @@ public class Graphics {
 	
 	// Draw methods
 	
+	public static void drawStaticTexture(TextureRegion tr, float x, float y) {
+		sb.draw(tr, x - tr.getRegionWidth() / 2 + GameScreen.camera.getX(), y - tr.getRegionHeight() / 2 + GameScreen.camera.getY());
+	}
+	
 	
 	public static void drawTexture(TextureRegion tr, float x, float y) {
 		sb.draw(tr, x - tr.getRegionWidth() / 2, y - tr.getRegionHeight() / 2);
@@ -82,7 +88,7 @@ public class Graphics {
 		drawTexture(texture, p.getX(), p.getY(), rotation);
 	}
 
-	public static double getDelta() {
+	public static float getDelta() {
 		return Gdx.graphics.getDeltaTime();
 	}
 	

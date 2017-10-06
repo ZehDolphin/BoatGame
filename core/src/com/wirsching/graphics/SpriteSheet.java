@@ -51,12 +51,37 @@ public class SpriteSheet {
 		
 	}
 	
+	public SpriteSheet(Texture image) {
+		this.image = image;
+	}
+	
+	
+	
+	public void load(String id, int x, int y, int width, int height) {
+		sprites.put(id, new TextureRegion(image, x, y, width, height));
+	}
+	
 	public TextureRegion get(String id) {
 		return sprites.get(id);
 	}
 	
 	public void dispose() {
 		image.dispose();
+	}
+
+	public SpriteSheet loadGrid(int width, int height) {
+		int w = image.getWidth() / width;
+		int h = image.getHeight() / height;
+		
+		for (int x = 0; x < w; x++) {
+			for (int y = 0; y < h; y++) {
+				System.out.println(x + ", " + y);
+				sprites.put(x + ":" + y, new TextureRegion(image, x * width, y * height, width, height));
+			}
+		}
+		
+		
+		return this;
 	}
 	
 }

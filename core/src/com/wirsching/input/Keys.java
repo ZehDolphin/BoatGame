@@ -10,7 +10,7 @@ public class Keys {
 	public static int RIGHT = Input.Keys.D;
 	public static int RIGHT_ARROW = Input.Keys.RIGHT;
 	public static int LEFT_ARROW = Input.Keys.LEFT;
-	public static int FULLSCREEN = Input.Keys.F11;
+	public static int FULLSCREEN = Input.Keys.F10;
 	public static int CLOSE = Input.Keys.ESCAPE;
 
 }
