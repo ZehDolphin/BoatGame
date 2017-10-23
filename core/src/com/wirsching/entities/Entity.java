@@ -20,6 +20,7 @@ public class Entity extends Rectangle implements Drawable {
 	 */
 	public int id = EntityHandler.generateEntityID();
 	
+	
 	/**
 	 * Rotation measured in degrees relative to the world.
 	 */
@@ -30,6 +31,11 @@ public class Entity extends Rectangle implements Drawable {
 	 */
 	private float rotationSpeed = 180.0f;
 	
+	/**
+	 * If this is set to true, the entity will be removed. <br>
+	 */
+	private boolean delete = false;
+	
 	public Entity() {
 	}
 
@@ -38,15 +44,14 @@ public class Entity extends Rectangle implements Drawable {
 	}
 	
 	/**
-	 * Draws the entity.
+	 * Remove this entity before the next frame starts. <br>
 	 */
-	public void draw() {
+	public void remove() {
+		delete = true;
 	}
 	
-	/**
-	 * Updates the entity.
-	 */
-	public void update() {
+	public boolean shouldRemove() {
+		return delete;
 	}
 	
 	/**
@@ -115,6 +120,18 @@ public class Entity extends Rectangle implements Drawable {
 			rotateRight();
 		if (Math.abs(angleDelta) < getRotationSpeed() * Graphics.getDelta())
 			setRotation(targetAngle);
+	}
+	
+	/**
+	 * Draws the entity.
+	 */
+	public void draw() {
+	}
+	
+	/**
+	 * Updates the entity.
+	 */
+	public void update() {
 	}
 	
 	/**

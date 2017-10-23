@@ -2,12 +2,12 @@ package com.wirsching.entities.ships;
 
 import com.wirsching.entities.Entity;
 import com.wirsching.entities.EntityHandler;
+import com.wirsching.entities.MovableEntity;
 import com.wirsching.entities.turrets.Turret;
-import com.wirsching.graphics.Graphics;
 import com.wirsching.math.Math;
 import com.wirsching.math.Point2f;
 
-public class Ship extends Entity {
+public class Ship extends MovableEntity {
 
 	public UpgradeSlot[] slots = new UpgradeSlot[0];
 
@@ -31,31 +31,7 @@ public class Ship extends Entity {
 		return slots[slotIndex].getTurret();
 	}
 
-	/**
-	 * Measured in pixels per second.
-	 */
-	public float maxSpeed = 20.0f;
-
-	/**
-	 * Measured in pixels per second per second.
-	 */
-	public float acceleration = 1.0f;
-
-	/**
-	 * Measured in pixels per second.
-	 */
-	public float currentSpeed = 0.0f;
-
-	/**
-	 * The direction of which this ship is drifting.
-	 */
-	public float driftDirection = 0.0f;
-
-	/**
-	 * The drift speed.
-	 */
-	public float driftSpeed = 0.0f;
-
+	
 	public Ship(float x, float y) {
 		setX(x);
 		setY(y);
@@ -65,6 +41,10 @@ public class Ship extends Entity {
 		super(x, y, width, height);
 	}
 
+	/**
+	 * Converts the "ship-relative" coordinates to world coordinates. <br>
+	 * Used for turrets and other add-ons. <br>
+	 */
 	public Point2f getWorldCoordinates(Point2f p) {
 		float angle = getRotation() + 90;
 		float ox = getX();
@@ -79,23 +59,11 @@ public class Ship extends Entity {
 
 	@Override
 	public void update() {
+		super.update();
 
 		radius = Float.max(getWidth(), getHeight()) / 2 + 0;
 
-		currentSpeed *= (55f * Graphics.getDelta());
-		if (Math.abs(currentSpeed) < 0.1) {
-			currentSpeed = 0;
-		}
-
-		driftSpeed *= (57f * Graphics.getDelta());
-		if (Math.abs(driftSpeed) < 0.1) {
-			driftSpeed = 0;
-		}
-
-		setX((float) (getX() + Math.cos(getRotation() + 90) * currentSpeed * Graphics.getDelta()
-				+ Math.cos(driftDirection + 90) * driftSpeed * Graphics.getDelta()));
-		setY((float) (getY() + Math.sin(getRotation() + 90) * currentSpeed * Graphics.getDelta()
-				+ Math.sin(driftDirection + 90) * driftSpeed * Graphics.getDelta()));
+		
 
 		for (Entity e : EntityHandler.entities) {
 			if (!(e instanceof Ship))
@@ -133,36 +101,6 @@ public class Ship extends Entity {
 
 	}
 
-	public void setCurrentSpeed(float speed) {
-		currentSpeed = speed;
-	}
-
-	public float getCurrentSpeed() {
-		return currentSpeed;
-	}
-
-	public void setAcceleration(float acc) {
-		acceleration = acc;
-	}
-
-	public void setMaxSpeed(float maxSpeed) {
-		this.maxSpeed = maxSpeed;
-	}
-
-	public void moveForward() {
-		if (currentSpeed <= maxSpeed) {
-			currentSpeed += acceleration * Graphics.getDelta();
-		} else {
-			currentSpeed = maxSpeed;
-		}
-	}
-
-	public void moveBackward() {
-		if (currentSpeed >= -maxSpeed) {
-			currentSpeed -= acceleration * Graphics.getDelta();
-		} else {
-			currentSpeed = -maxSpeed;
-		}
-	}
+	
 
 }

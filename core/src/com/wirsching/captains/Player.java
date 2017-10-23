@@ -37,6 +37,15 @@ public class Player extends Captain {
 		}
 		
 		
+		if (Mouse.isPressed()) {
+			for (int i = 0; i < getCurrentShip().getSlots(); i++) {
+				Turret t = getCurrentShip().getTurret(i);
+				if (t != null) 
+					t.fire();
+			}
+		}
+		
+		
 		// Rotate all turrets on the ship to the mouse pointer.
 		for (int i = 0; i < getCurrentShip().getSlots(); i++) {
 			Turret t = getCurrentShip().getTurret(i);

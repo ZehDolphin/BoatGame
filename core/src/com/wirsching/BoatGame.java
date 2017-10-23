@@ -29,6 +29,7 @@ public class BoatGame extends ApplicationAdapter {
 	public void render() {
 		ScreenManager.update();
 		ScreenManager.render();
+		
 	}
 
 	@Override

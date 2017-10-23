@@ -18,4 +18,8 @@ public class Mouse {
 		return new Point2f(v.x, v.y);
 	}
 
+	public static boolean isPressed() {
+		return Gdx.input.isTouched();
+	}
+	
 }

@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.wirsching.Resources;
 import com.wirsching.captains.Player;
 import com.wirsching.entities.EntityHandler;
+import com.wirsching.entities.projectiles.ProjectileHandler;
 import com.wirsching.entities.ships.MetalBoat;
 import com.wirsching.entities.ships.OakBoat;
 import com.wirsching.entities.turrets.StoneThrower;
@@ -16,7 +17,6 @@ import com.wirsching.graphics.Camera;
 import com.wirsching.graphics.Graphics;
 import com.wirsching.graphics.Screen;
 import com.wirsching.graphics.gui.GuiHandler;
-import com.wirsching.graphics.gui.GuiPanel;
 import com.wirsching.input.Keys;
 import com.wirsching.input.Mouse;
 import com.wirsching.math.Math;
@@ -52,7 +52,7 @@ public class GameScreen extends Screen {
 		player = new Player();
 		
 		
-		GuiHandler.addGui(new GuiPanel(100, 100, 100, 100));
+//		GuiHandler.addGui(new GuiPanel(100, 100, 100, 100));
 		
 	}
 	
@@ -100,7 +100,11 @@ public class GameScreen extends Screen {
 		
 		player.update();
 		EntityHandler.update();
+		ProjectileHandler.update();
 		GuiHandler.update();
+		
+		System.out.println("FPS: " + Gdx.graphics.getFramesPerSecond() + "\nProjectiles: " + ProjectileHandler.projectiles.size());
+		
 	}
 
 	
@@ -128,6 +132,7 @@ public class GameScreen extends Screen {
 
 			
 			EntityHandler.render();
+			ProjectileHandler.render();
 			GuiHandler.draw();
 			
 			
