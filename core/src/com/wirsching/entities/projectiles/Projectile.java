@@ -11,7 +11,6 @@ import com.wirsching.math.Point2f;
  * 
  * @author zehdolphin
  * 
- * TODO - Add projectile range
  *
  */
 public class Projectile extends MovableEntity {
@@ -49,13 +48,14 @@ public class Projectile extends MovableEntity {
 		setPosition(x, y);
 		setRotation(angle);
 		setMaxSpeed(force);
+		setCurrentSpeed(force);
+		drag = 400f;
 	}
 
 	@Override
 	public void update() {
 		super.update();
 		moveForward();
-		setCurrentSpeed(getMaxSpeed());
 		if (Math.getDistance(startingPoint, getPosition()) > getRange()) {
 			remove();
 		}

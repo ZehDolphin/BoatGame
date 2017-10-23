@@ -29,6 +29,11 @@ public class MovableEntity extends Entity {
 	 * The drift speed.
 	 */
 	public float driftSpeed = 0.0f;
+	
+	/**
+	 * How much the entity should be slowed down every second.
+	 */
+	protected float drag = 200f;
 
 
 	public MovableEntity() {
@@ -41,10 +46,16 @@ public class MovableEntity extends Entity {
 	
 	@Override
 	public void update() {
-		currentSpeed *= (55f * Graphics.getDelta());
-		if (Math.abs(currentSpeed) < 0.1) {
+		if (currentSpeed > 2)
+			currentSpeed = currentSpeed - (drag) * Graphics.getDelta();
+		else if (currentSpeed < -2)
+			currentSpeed = currentSpeed + (drag) * Graphics.getDelta();
+		else
 			currentSpeed = 0;
-		}
+
+		System.out.println(currentSpeed);
+		
+		
 
 		driftSpeed *= (57f * Graphics.getDelta());
 		if (Math.abs(driftSpeed) < 0.1) {

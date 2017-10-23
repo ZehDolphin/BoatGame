@@ -73,8 +73,16 @@ public class GameScreen extends Screen {
 			toggle = false;
 			
 			fullscreen = !fullscreen;
-			if (fullscreen) Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
-			else Gdx.graphics.setWindowedMode(1280, 720);
+			if (fullscreen) {
+//				Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+				Gdx.graphics.setUndecorated(true);
+				Gdx.graphics.setWindowedMode(Gdx.graphics.getDisplayMode().width, Gdx.graphics.getDisplayMode().height);
+			}
+			else {
+				Gdx.graphics.setUndecorated(false);
+				Gdx.graphics.setWindowedMode(1280, 720);
+			}
+			
 			
 		} else if (!Gdx.input.isKeyPressed(Keys.FULLSCREEN) && !toggle) {
 			toggle = true;
