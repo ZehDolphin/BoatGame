@@ -11,7 +11,6 @@ import com.wirsching.math.Point2f;
  * 
  * @author zehdolphin
  * 
- * TODO - Add projectile range
  *
  */
 public class Projectile extends MovableEntity {

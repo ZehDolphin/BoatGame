@@ -1,5 +1,13 @@
 package com.wirsching.graphics.screens;
 
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -53,6 +61,16 @@ public class GameScreen extends Screen {
 		
 		
 //		GuiHandler.addGui(new GuiPanel(100, 100, 100, 100));
+		
+		
+	
+		
+		
+		
+		
+		
+		
+		
 		
 	}
 	
