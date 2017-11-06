@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.wirsching.BoatGame;
 import com.wirsching.Resources;
 import com.wirsching.captains.Player;
 import com.wirsching.entities.EntityHandler;
@@ -65,8 +66,9 @@ public class GameScreen extends Screen {
 		
 	
 		
-		
-		
+		System.out.println("Sending...");
+		boolean success = BoatGame.client.send("initialized");
+
 		
 		
 		
@@ -115,6 +117,7 @@ public class GameScreen extends Screen {
 		cameraTX = player.getCurrentShip().getX();
 		cameraTY = player.getCurrentShip().getY();
 		
+		
 		float angle = Math.getAngle(new Point2f(camera.getX(),  camera.getY()), new Point2f(cameraTX, cameraTY));
 		float distance = Math.getDistance(new Point2f(camera.getX(),  camera.getY()), new Point2f(cameraTX, cameraTY));
 		
@@ -129,7 +132,7 @@ public class GameScreen extends Screen {
 		ProjectileHandler.update();
 		GuiHandler.update();
 		
-		System.out.println("FPS: " + Gdx.graphics.getFramesPerSecond() + "\nProjectiles: " + ProjectileHandler.projectiles.size());
+//		System.out.println("FPS: " + Gdx.graphics.getFramesPerSecond() + "\nProjectiles: " + ProjectileHandler.projectiles.size());
 		
 	}
 

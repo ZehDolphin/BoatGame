@@ -53,7 +53,6 @@ public class MovableEntity extends Entity {
 		else
 			currentSpeed = 0;
 
-		System.out.println(currentSpeed);
 		
 		
 
