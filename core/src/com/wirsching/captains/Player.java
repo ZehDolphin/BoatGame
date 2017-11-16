@@ -49,8 +49,10 @@ public class Player extends Captain {
 		// Rotate all turrets on the ship to the mouse pointer.
 		for (int i = 0; i < getCurrentShip().getSlots(); i++) {
 			Turret t = getCurrentShip().getTurret(i);
-			if (t != null) 
-				t.rotateToTarget(Math.getAngle(new Point2f(getCurrentShip().getX() + t.getPosition().getX(), getCurrentShip().getY() + t.getPosition().getY()), Mouse.getPosition()));
+			if (t != null) {
+				Point2f p = getCurrentShip().getWorldCoordinates(t.getPosition());
+				t.rotateToTarget(Math.getAngle(new Point2f(p.getX(), p.getY()), Mouse.getPosition()));
+			}
 		}
 		
 		if (Gdx.input.isKeyPressed(Keys.FORWARD)) {

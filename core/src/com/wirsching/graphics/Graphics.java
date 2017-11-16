@@ -68,7 +68,8 @@ public class Graphics {
 	// Draw methods
 	
 	public static void drawStaticTexture(TextureRegion tr, float x, float y) {
-		sb.draw(tr, x - tr.getRegionWidth() / 2 + GameScreen.camera.getX(), y - tr.getRegionHeight() / 2 + GameScreen.camera.getY());
+		Point2f p = GameScreen.camera.screenCoords(x, y);
+		sb.draw(tr, p.getX() - tr.getRegionWidth() / 2, p.getY() - tr.getRegionHeight() / 2);
 	}
 	
 	

@@ -11,6 +11,7 @@ public class DesktopLauncher {
 		config.width = 1280;
 		config.height = 720;
 		config.title = "Boat Game";
+		config.vSyncEnabled = false;
 		
 		new LwjglApplication(new BoatGame(), config);
 	}

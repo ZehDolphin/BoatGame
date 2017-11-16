@@ -2,6 +2,8 @@ package com.wirsching.graphics.gui;
 
 import com.wirsching.Resources;
 import com.wirsching.graphics.Graphics;
+import com.wirsching.graphics.screens.GameScreen;
+import com.wirsching.math.Point2f;
 
 public class GuiPanel extends GuiComponent {
 

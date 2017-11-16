@@ -2,6 +2,8 @@ package com.wirsching.graphics;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Vector3;
+import com.wirsching.math.Point2f;
 
 public class Camera {
 
@@ -39,5 +41,10 @@ public class Camera {
 	
 	public float getY() {
 		return camera.position.y;
+	}
+
+	public Point2f screenCoords(float f, float g) {
+		Vector3 a = camera.unproject(new Vector3(f, g, 0));
+		return new Point2f(a.x, a.y);
 	}
 }

@@ -1,20 +1,12 @@
 package com.wirsching.graphics.screens;
 
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.wirsching.BoatGame;
 import com.wirsching.Resources;
 import com.wirsching.captains.Player;
 import com.wirsching.entities.EntityHandler;
@@ -26,6 +18,7 @@ import com.wirsching.graphics.Camera;
 import com.wirsching.graphics.Graphics;
 import com.wirsching.graphics.Screen;
 import com.wirsching.graphics.gui.GuiHandler;
+import com.wirsching.graphics.gui.GuiPanel;
 import com.wirsching.input.Keys;
 import com.wirsching.input.Mouse;
 import com.wirsching.math.Math;
@@ -38,6 +31,8 @@ public class GameScreen extends Screen {
 	public Player player;
 	
 	private TextureRegion grid;
+	
+	BitmapFont font = new BitmapFont();
 	
 	public GameScreen() {
 		setId("GAME");
@@ -61,13 +56,13 @@ public class GameScreen extends Screen {
 		player = new Player();
 		
 		
-//		GuiHandler.addGui(new GuiPanel(100, 100, 100, 100));
+		GuiHandler.addGui(new GuiPanel(100, 100, 100, 100));
 		
 		
 	
 		
-		System.out.println("Sending...");
-		boolean success = BoatGame.client.send("initialized");
+//		System.out.println("Sending...");
+//		boolean success = BoatGame.client.send("initialized");
 
 		
 		
@@ -94,12 +89,12 @@ public class GameScreen extends Screen {
 			
 			fullscreen = !fullscreen;
 			if (fullscreen) {
-//				Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
-				Gdx.graphics.setUndecorated(true);
-				Gdx.graphics.setWindowedMode(Gdx.graphics.getDisplayMode().width, Gdx.graphics.getDisplayMode().height);
+				Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+//				Gdx.graphics.setUndecorated(true);
+//				Gdx.graphics.setWindowedMode(Gdx.graphics.getDisplayMode().width, Gdx.graphics.getDisplayMode().height);
 			}
 			else {
-				Gdx.graphics.setUndecorated(false);
+//				Gdx.graphics.setUndecorated(false);
 				Gdx.graphics.setWindowedMode(1280, 720);
 			}
 			
@@ -163,10 +158,15 @@ public class GameScreen extends Screen {
 			EntityHandler.render();
 			ProjectileHandler.render();
 			GuiHandler.draw();
+
+//			Vector3 v = GameScreen.camera.screenCoords(0, 0);	
+//			font.draw(Graphics.getSpriteBatch(), "FPS: " + Gdx.graphics.getFramesPerSecond(), v.x, v.y);
 			
 			
 		}
 		Graphics.end();
+		
+		
 		
 
 	}

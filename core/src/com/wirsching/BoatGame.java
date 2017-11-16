@@ -12,9 +12,8 @@ public class BoatGame extends ApplicationAdapter {
 	@Override
 	public void create() {
 		
-		client = new Client();
-		
-		client.connectTo("192.168.0.16", 4321);
+//		client = new Client();
+//		client.connectTo("192.168.0.16", 4321);
 
 		// Loads all resources.
 		Resources.load();

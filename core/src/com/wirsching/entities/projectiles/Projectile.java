@@ -41,7 +41,7 @@ public class Projectile extends MovableEntity {
 	
 	private Point2f startingPoint;
 	
-	
+	private boolean removeOnStop = false;
 	
 	public Projectile(float x, float y, float angle, float force) {
 		startingPoint = new Point2f(x, y);
@@ -56,9 +56,13 @@ public class Projectile extends MovableEntity {
 	public void update() {
 		super.update();
 		moveForward();
-		if (Math.getDistance(startingPoint, getPosition()) > getRange()) {
+		if ((Math.getDistance(startingPoint, getPosition()) > getRange()) || (removeOnStop && (getCurrentSpeed() < 0.1f))) {
 			remove();
 		}
+	}
+	
+	public void removeWhenStopped() {
+		removeOnStop = true;
 	}
 	
 	public void setRange(float range) {
@@ -91,6 +95,8 @@ public class Projectile extends MovableEntity {
 
 	public void setType(Type type) {
 		this.type = type;
+		if (type == Type.DIRECT_CONTACT)
+			removeWhenStopped();
 	}
 
 	public TextureRegion getTexture() {
