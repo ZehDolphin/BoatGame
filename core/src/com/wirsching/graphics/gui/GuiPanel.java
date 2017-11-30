@@ -2,8 +2,6 @@ package com.wirsching.graphics.gui;
 
 import com.wirsching.Resources;
 import com.wirsching.graphics.Graphics;
-import com.wirsching.graphics.screens.GameScreen;
-import com.wirsching.math.Point2f;
 
 public class GuiPanel extends GuiComponent {
 
@@ -24,7 +22,26 @@ public class GuiPanel extends GuiComponent {
 
 	@Override
 	public void draw() {
-		Graphics.drawStaticTexture(Resources.getTextureRegion("gui_panel/0:0"), getX(), getY());
+		float tileSize = Resources.getTextureRegion("gui_panel/0:0").getRegionWidth() * 2.0f;
+
+		// Corners
+		Graphics.drawStaticTexture(Resources.getTextureRegion("gui_panel/0:2"), getX(), getY(), tileSize, tileSize);
+		Graphics.drawStaticTexture(Resources.getTextureRegion("gui_panel/2:0"), getX() + getWidth() - tileSize, getY() + getHeight() - tileSize, tileSize, tileSize);
+		Graphics.drawStaticTexture(Resources.getTextureRegion("gui_panel/0:0"), getX(), getY() + getHeight() - tileSize, tileSize, tileSize);
+		Graphics.drawStaticTexture(Resources.getTextureRegion("gui_panel/2:2"), getX() + getWidth() - tileSize, getY(), tileSize, tileSize);
+
+		// Edges
+		Graphics.drawStaticTexture(Resources.getTextureRegion("gui_panel/1:2"), getX() + tileSize, getY(), getWidth() - tileSize * 2, tileSize);
+		Graphics.drawStaticTexture(Resources.getTextureRegion("gui_panel/0:1"), getX(), getY() + tileSize, tileSize, getHeight() - tileSize * 2);
+		Graphics.drawStaticTexture(Resources.getTextureRegion("gui_panel/2:1"), getX() + getWidth() - tileSize, getY() + tileSize, tileSize, getHeight() - tileSize * 2);
+		Graphics.drawStaticTexture(Resources.getTextureRegion("gui_panel/1:0"), getX() + tileSize, getY() + getHeight() - tileSize, getWidth() - tileSize * 2, tileSize);
+	
+		// Center part
+		Graphics.drawStaticTexture(Resources.getTextureRegion("gui_panel/1:1"), getX() + tileSize, getY() + tileSize, getWidth() - tileSize * 2, getHeight() - tileSize * 2);
+
+		
+		super.draw();
+		
 	}
 
 }

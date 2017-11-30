@@ -9,6 +9,11 @@ import com.wirsching.math.Rectangle;
 
 public class Entity extends Rectangle implements Drawable {
 
+	
+	/**
+	 * Higher render orders will be drawn after lower ones. So higher = "above".
+	 */
+	private int renderOrder = 0;
 
 	/**
 	 * ArrayList of tags that can be used for sorting/dividing entities in different groups. <br>
@@ -16,9 +21,9 @@ public class Entity extends Rectangle implements Drawable {
 	public ArrayList<Tag> tags = new ArrayList<Tag>();
 	
 	/**
-	 * A unique identifier for each entity.
+	 * An unique identifier for each entity.
 	 */
-	public int id = EntityHandler.generateEntityID();
+	public String id = EntityHandler.generateEntityID();
 	
 	
 	/**
@@ -41,6 +46,23 @@ public class Entity extends Rectangle implements Drawable {
 
 	public Entity(float x, float y, float width, float height) {
 		super(x, y, width, height);
+	}
+	
+	public String getID() {
+		return id;
+	}
+	
+	public Entity setID(String id) {
+		this.id = id;
+		return this;
+	}
+	
+	public int getRenderOrder() {
+		return renderOrder;
+	}
+	
+	public void setRenderOrder(int i) {
+		renderOrder = i;
 	}
 	
 	/**
@@ -108,6 +130,7 @@ public class Entity extends Rectangle implements Drawable {
 	 * Rotate to a certain angle using the rotation speed.
 	 */
 	public void rotateToTarget(float targetAngle) {
+		targetAngle -= 90;
 		float angle = getRotation() % 360;
 		
 		float angleDelta = (angle - targetAngle);

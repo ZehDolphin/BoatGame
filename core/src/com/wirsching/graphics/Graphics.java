@@ -13,7 +13,15 @@ public class Graphics {
 
 	private static SpriteBatch sb;
 	private static ShapeRenderer sr;
+	private static SpriteBatch gui;
+
+	public static void setGuiSpriteBatch(SpriteBatch sb) {
+		Graphics.gui = sb;
+	}
 	
+	public static SpriteBatch getGuiSpriteBatch() {
+		return gui;
+	}
 
 	public static void setSpriteBatch(SpriteBatch sb) {
 		Graphics.sb = sb;
@@ -46,6 +54,8 @@ public class Graphics {
 	
 	public static void dispose() {
 		sb.dispose();
+		sr.dispose();
+		gui.dispose();
 	}
 
 	
@@ -68,10 +78,14 @@ public class Graphics {
 	// Draw methods
 	
 	public static void drawStaticTexture(TextureRegion tr, float x, float y) {
-		Point2f p = GameScreen.camera.screenCoords(x, y);
-		sb.draw(tr, p.getX() - tr.getRegionWidth() / 2, p.getY() - tr.getRegionHeight() / 2);
+		drawStaticTexture(tr, x, y, tr.getRegionWidth(), tr.getRegionHeight());
 	}
 	
+	public static void drawStaticTexture(TextureRegion tr, float x, float y, float width, float height) {
+//		Point2f p = GameScreen.camera.screenCoords(x, y);
+//		sb.draw(tr, p.getX(), p.getY() - height, width, height);
+		gui.draw(tr, x, y, width, height);
+	}
 	
 	public static void drawTexture(TextureRegion tr, float x, float y) {
 		sb.draw(tr, x - tr.getRegionWidth() / 2, y - tr.getRegionHeight() / 2);
@@ -91,6 +105,14 @@ public class Graphics {
 
 	public static float getDelta() {
 		return Gdx.graphics.getDeltaTime();
+	}
+	
+	public static float getWidth() {
+		return Gdx.graphics.getWidth();
+	}
+
+	public static float getHeight() {
+		return Gdx.graphics.getHeight();
 	}
 	
 }

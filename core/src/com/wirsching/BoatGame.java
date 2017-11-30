@@ -3,18 +3,15 @@ package com.wirsching;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.wirsching.graphics.ScreenManager;
 import com.wirsching.graphics.screens.GameScreen;
-import com.wirsching.network.Client;
+import com.wirsching.network.GameClient;
 
 public class BoatGame extends ApplicationAdapter {
 
-	public static Client client;
+	public static GameClient client;
 
 	@Override
 	public void create() {
 		
-//		client = new Client();
-//		client.connectTo("192.168.0.16", 4321);
-
 		// Loads all resources.
 		Resources.load();
 		

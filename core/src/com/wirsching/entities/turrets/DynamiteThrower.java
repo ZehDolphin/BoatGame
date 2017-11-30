@@ -4,25 +4,20 @@ import com.wirsching.Resources;
 import com.wirsching.graphics.Graphics;
 import com.wirsching.graphics.animation.Animation;
 
-/**
- * 
- * @author zehdolphin
- * @see com.wirsching.entities.projectiles.Stone
- */
-public class StoneThrower extends Turret {
+public class DynamiteThrower extends Turret {
 
 	Animation a;
 	
-	public StoneThrower() {
+	public DynamiteThrower() {
 		super();
 		setRotationSpeed(720);
-		setProjectile("Stone");
+		setProjectile("Dynamite");
 		setThrowForce(300f);
-		setFirerate(2.0f);
+		setFirerate(0.5f);
 		
-		a = new Animation(Resources.get("animation_stonethrower")).setFPS(60f);
+		a = new Animation(Resources.get("animation_dynamitethrower")).setFPS(60f);
 	}
-	
+
 	@Override
 	public void justFired() {
 		a.playOnce();
@@ -32,7 +27,5 @@ public class StoneThrower extends Turret {
 	public void draw() {
 		Graphics.drawTexture(a.getCurrentFrame(), getParent().getWorldCoordinates(getPosition()), getRotation());
 	}
-	
-	
 
 }

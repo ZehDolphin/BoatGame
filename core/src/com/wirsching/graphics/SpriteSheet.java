@@ -3,6 +3,8 @@ package com.wirsching.graphics;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
@@ -105,6 +107,20 @@ public class SpriteSheet {
 		
 		
 		return this;
+	}
+	
+	public TextureRegion[] getAsArray() {
+		TextureRegion[] sprites = new TextureRegion[this.sprites.size()];
+		
+		Iterator<Entry<String, TextureRegion>> it = this.sprites.entrySet().iterator();
+		int index = 0;
+	    while (it.hasNext()) {
+	        Map.Entry<String, TextureRegion> pair = (Map.Entry<String, TextureRegion>)it.next();
+	        sprites[index] = pair.getValue();
+	        index++;
+	    }
+		
+		return sprites;
 	}
 	
 }

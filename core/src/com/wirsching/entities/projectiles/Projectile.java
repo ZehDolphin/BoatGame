@@ -1,7 +1,14 @@
 package com.wirsching.entities.projectiles;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.wirsching.entities.Entity;
+import com.wirsching.entities.EntityHandler;
 import com.wirsching.entities.MovableEntity;
+import com.wirsching.entities.Tag;
+import com.wirsching.entities.ships.Ship;
+import com.wirsching.entities.turrets.Turret;
 import com.wirsching.math.Math;
 import com.wirsching.math.Point2f;
 
@@ -14,6 +21,13 @@ import com.wirsching.math.Point2f;
  *
  */
 public class Projectile extends MovableEntity {
+	
+	{
+		addTag(Tag.PROJECTILE);
+		setRenderOrder(1);
+	}
+	
+	protected Turret parent = null;
 
 	/**
 	 * Amount of damage points this projectile deals.
@@ -43,15 +57,26 @@ public class Projectile extends MovableEntity {
 	
 	private boolean removeOnStop = false;
 	
-	public Projectile(float x, float y, float angle, float force) {
+	public Projectile(float x, float y, float angle, float force, Turret parent) {
 		startingPoint = new Point2f(x, y);
 		setPosition(x, y);
 		setRotation(angle);
 		setMaxSpeed(force);
 		setCurrentSpeed(force);
+		this.parent = parent;
 		drag = 400f;
 	}
 
+	public Turret getParent() {
+		return parent;
+	}
+	
+	public float getRadius() {
+		return Float.max(getWidth(), getHeight()) / 2 + 1;
+	}
+	
+	private ArrayList<Entity> hitList = new ArrayList<Entity>();
+	
 	@Override
 	public void update() {
 		super.update();
@@ -59,6 +84,30 @@ public class Projectile extends MovableEntity {
 		if ((Math.getDistance(startingPoint, getPosition()) > getRange()) || (removeOnStop && (getCurrentSpeed() < 0.1f))) {
 			remove();
 		}
+		
+		if (getType() == Type.DIRECT_CONTACT)
+		for (Entity e : EntityHandler.entities) {
+			if (!(e instanceof Ship)) continue;
+			if (hitList.contains(e)) continue;
+			Ship s = (Ship) e;
+			
+			if (getParent().getParent() == s) continue;
+			
+			float distance = Math.getDistance(getPosition(), s.getPosition());
+			
+			
+			if (distance > s.getHitRadius() * 2) continue;
+			
+			
+			if (distance - s.getHitRadius() < 0) {
+				hitList.add(e);
+				s.damage(getDamage());
+				remove();
+			}
+			
+			
+		}
+		
 	}
 	
 	public void removeWhenStopped() {

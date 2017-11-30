@@ -6,6 +6,7 @@ import com.wirsching.entities.ships.Ship;
 import com.wirsching.entities.turrets.Turret;
 import com.wirsching.input.Keys;
 import com.wirsching.input.Mouse;
+import com.wirsching.input.TouchSurface;
 import com.wirsching.math.Math;
 import com.wirsching.math.Point2f;
 
@@ -15,7 +16,7 @@ import com.wirsching.math.Point2f;
  *
  */
 public class Player extends Captain {
-
+	
 	public Player() {
 		super("player");
 		
@@ -30,14 +31,15 @@ public class Player extends Captain {
 		if (Gdx.input.isKeyPressed(Keys.RIGHT_ARROW) && toggle) {
 			toggle = false;
 			
-			controlShip(EntityHandler.getNexShip(getCurrentShip()));
+			controlShip(EntityHandler.getNextShip(getCurrentShip()));
 			
 		} else if (!Gdx.input.isKeyPressed(Keys.RIGHT_ARROW) && !toggle) {
 			toggle = true;
 		}
 		
 		
-		if (Mouse.isPressed()) {
+		// Fire turrets when mouse is pressed.
+		if (Mouse.isPressed(TouchSurface.GAME)) {
 			for (int i = 0; i < getCurrentShip().getSlots(); i++) {
 				Turret t = getCurrentShip().getTurret(i);
 				if (t != null) 

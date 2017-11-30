@@ -3,11 +3,57 @@ package com.wirsching.entities.ships;
 import com.wirsching.entities.Entity;
 import com.wirsching.entities.EntityHandler;
 import com.wirsching.entities.MovableEntity;
+import com.wirsching.entities.Tag;
 import com.wirsching.entities.turrets.Turret;
 import com.wirsching.math.Math;
 import com.wirsching.math.Point2f;
 
 public class Ship extends MovableEntity {
+	
+	{
+		addTag(Tag.SHIP);
+		setRenderOrder(0);
+	}
+	
+	private float health = 100.0f;
+	
+	public String toString() {
+		
+		String s = "{";
+		
+		s += "'class': '" + getClass().getName()  + "',";
+		s += "'position': {'x': '"+getX()+"', 'y': '"+getY()+"'},";
+		s += "'rotation': '" + getRotation()  + "',";
+		s += "'health': '" + getHealth()  + "',";
+		s += "'upgrade_slots': {";
+		
+		for (int i = 0; i < getSlots(); i++) {
+			if (slots[i].turret == null) continue;
+			s += "{";
+			s += "'class': '"+slots[i].turret.getClass().getName()+"'";
+			s += "}";
+			if (i != getSlots() - 1) s += ", ";
+		}
+		
+		s += "}";
+
+		
+		s += "}";
+		
+		return s;
+	}
+	
+	public void setHealth(float health) {
+		this.health = health;
+	}
+	
+	public float getHealth() {
+		return health;
+	}
+	
+	public void damage(float amount) {
+		health -= amount;
+	}
 
 	public UpgradeSlot[] slots = new UpgradeSlot[0];
 
@@ -32,6 +78,7 @@ public class Ship extends MovableEntity {
 	}
 
 	
+	
 	public Ship(float x, float y) {
 		setX(x);
 		setY(y);
@@ -55,15 +102,23 @@ public class Ship extends MovableEntity {
 		return new Point2f(x, y);
 	}
 
-	public float radius = Float.max(getWidth(), getHeight()) / 2 + 1;
-
+	private float radius = Float.max(getWidth(), getHeight()) / 2 + 1;
+	
+	public float getRadius() {
+		return radius;
+	}
+	
+	public float getHitRadius() {
+		return getRadius() * 0.80f;
+	}
+	
 	@Override
 	public void update() {
 		super.update();
 
 		radius = Float.max(getWidth(), getHeight()) / 2 + 0;
 
-		
+		if (getHealth() <= 0) remove();
 
 		for (Entity e : EntityHandler.entities) {
 			if (!(e instanceof Ship))
@@ -72,7 +127,7 @@ public class Ship extends MovableEntity {
 			if (e == this)
 				continue;
 			float distance = Math.getDistance(getPosition(), e.getPosition());
-			if (distance > radius * 10)
+			if (distance > radius * 2 + s.radius * 2)
 				continue;
 
 			// float angle = Math.getAngle(getPosition(), e.getPosition());

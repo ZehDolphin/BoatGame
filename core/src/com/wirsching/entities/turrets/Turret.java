@@ -3,16 +3,16 @@ package com.wirsching.entities.turrets;
 import java.lang.reflect.Constructor;
 
 import com.wirsching.entities.Entity;
+import com.wirsching.entities.EntityHandler;
 import com.wirsching.entities.projectiles.Projectile;
-import com.wirsching.entities.projectiles.ProjectileHandler;
 import com.wirsching.entities.ships.Ship;
 import com.wirsching.math.Point2f;
 
-public class Turret extends Entity {
+public abstract class Turret extends Entity {
 
 	private Ship parent;
 	
-	private String projectile;
+	protected String projectile;
 	
 	private float throwForce = 100f;
 	
@@ -24,17 +24,19 @@ public class Turret extends Entity {
 	/**
 	 * When was this turret last fired, measured in milliseconds.
 	 */
-	private long last_fired = 0;
+	protected long last_fired = 0;
 	
 	public Turret() {
 
 	}
 	
+	@Deprecated
 	public Turret(float x, float y) {
 		setX(x);
 		setY(y);
 	}
 	
+	@Deprecated
 	public Turret(Ship s, float x, float y) {
 		parent = s;
 		setPosition(x, y);
@@ -45,6 +47,7 @@ public class Turret extends Entity {
 		long current = System.currentTimeMillis();
 		if ((current - last_fired) > 1000 / getFirerate()) {
 			last_fired = current;
+			justFired();
 			if (projectile != null) {
 				Projectile p;
 				Class<?> clazz;
@@ -57,18 +60,24 @@ public class Turret extends Entity {
 					
 					Constructor<?> ctor = c[0];
 					Point2f turretPos = getParent().getWorldCoordinates(getPosition());
-					p = (Projectile) ctor.newInstance(turretPos.getX(), turretPos.getY(), getRotation() - 90, throwForce);
+					p = (Projectile) ctor.newInstance(turretPos.getX(), turretPos.getY(), getRotation(), throwForce, this);
 					
 					
 					
-					ProjectileHandler.addProjectile(p);
+					EntityHandler.addEntity(p);
 				} catch (Exception e) {
-					e.printStackTrace();
+					try {
+						throw new CouldNotFindProjectileException(getProjectile());
+					} catch (CouldNotFindProjectileException e1) {
+						e1.printStackTrace();
+					}
 				}
 			}
 		}
 		
 	}
+	
+	public abstract void justFired();
 	
 	@Override
 	public void update() {

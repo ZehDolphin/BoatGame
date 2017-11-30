@@ -12,7 +12,6 @@ public class MetalBoat extends Ship {
 	public MetalBoat(float x, float y) {
 		super(x, y);
 		setDimensions(15, 27);
-		addTag(Tag.DYNAMIC);
 		setRotationSpeed(150);
 		setAcceleration(500f);
 		setMaxSpeed(100f);

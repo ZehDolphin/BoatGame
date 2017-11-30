@@ -4,24 +4,28 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Matrix4;
 import com.wirsching.math.Point2f;
 
-public class Camera {
+public class GuiCamera {
 
 	public OrthographicCamera camera;
 	
 	private float virtualWidth = 400;
 	
-	public Camera() {
+	public GuiCamera() {
 		camera = new OrthographicCamera();
+		setX(0);
+		setY(0);
 	}
 	
-	public Camera setVirtualWidth(float width) {
+	public GuiCamera setVirtualWidth(float width) {
 		virtualWidth = width;
 		return this;
 	}
 	
 	public void resize(int width, int height) {
-		camera.viewportWidth = virtualWidth;
-		camera.viewportHeight = virtualWidth * height / width;
+		camera.viewportWidth = width;
+		camera.viewportHeight = height;
+		setX(0);
+		setY(0);
 		camera.update();
 	}
 
@@ -30,12 +34,12 @@ public class Camera {
 	}
 	
 	public void setX(float x) {
-		camera.position.x = x;
+		camera.position.x = x + camera.viewportWidth / 2;
 		camera.update();
 	}
 	
 	public void setY(float y) {
-		camera.position.y = y;
+		camera.position.y = y + camera.viewportHeight / 2;
 		camera.update();
 	}
 	

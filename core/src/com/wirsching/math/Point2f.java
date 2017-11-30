@@ -1,7 +1,7 @@
 package com.wirsching.math;
 
 public class Point2f {
-	
+
 	private float x, y;
 	
 	public Point2f() {
