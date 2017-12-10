@@ -49,21 +49,25 @@ public class EntityHandler {
 		return entities.get(index);
 	}
 
-	public static Ship getNextShip(Ship ship) {
+	public static Ship getNextShip(Ship ship, String player) {
 		Ship next = null;
 		int startIndex = entities.indexOf(ship);
 		for (Entity e : getEntitiesByTag(Tag.SHIP)) {
 			if (entities.indexOf(e) > startIndex) {
 				Ship s = (Ship) e;
-				next = s;
-				break;
+				if (s.getPlayer() == player) {
+					next = s;
+					break;
+				}
 			}
 		}
 		if (next == null) {
 			for (Entity e : getEntitiesByTag(Tag.SHIP)) {
 				Ship s = (Ship) e;
-				next = s;
-				break;
+				if (s.getPlayer() == player) {
+					next = s;
+					break;
+				}
 			}
 		}
 		return next;

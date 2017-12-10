@@ -36,31 +36,23 @@ public class GameServer extends Thread {
 	public void initPlayer(String name) {
 		if (name == "ZehDolphin") {
 
-			EntityHandler
-					.addEntity(new OakBoat(100, 100).addTurret(0, new StoneThrower()).setID("ZehDolphin_ship_001"));
-			EntityHandler
-					.addEntity(new MetalBoat(200, 100).addTurret(0, new StoneThrower()).setID("ZehDolphin_ship_002"));
+			EntityHandler.addEntity(new OakBoat(100, 100).addTurret(0, new StoneThrower()).setPlayer("ZehDolphin")
+					.setID("ZehDolphin_ship_001"));
 
 		}
 	}
-	
+
 	public void run() {
 		while (true) {
-			
-			
+
 			EntityHandler.update();
-			
-			
-			
-			
-			
-			
+
 			try {
 				Thread.sleep(1000 / 60);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			
+
 		}
 	}
 
@@ -70,12 +62,11 @@ public class GameServer extends Thread {
 		// dataSource.setUser("");
 		// dataSource.setPassword("tiger");
 		// dataSource.setServerName("myDBHost.example.org");
-		
 
 		Resources.dontLoadAssets();
-		
+
 		EntityHandler.addEntity(new OakBoat(100, 100));
-		
+
 		server = new Server(port).setConnectionHandler(new ConnectionHandler() {
 
 			@Override
@@ -90,26 +81,28 @@ public class GameServer extends Thread {
 
 				if (id.equals("game_connect")) {
 					players.add(new Player(packet.getValue("username"), packet.getIP(), packet.getPort()));
-					
+
 					server.sendPacket(new SyncEntities(), packet.getIP(), packet.getPort());
-					
+
+					initPlayer(packet.getValue("username"));
+
 					// TODO - broadcast player join to all players.
-					
-					
-					
+
 					print(packet.getValue("username") + " has connected.");
 				}
-				
+
 				if (id.equals("game_disconnect")) {
-					for (Player p : players) if (p.username == packet.getValue("username")) {
-						players.remove(p);
-						break;
-					}
+					for (Player p : players)
+						if (p.username == packet.getValue("username")) {
+							players.remove(p);
+							break;
+						}
 					print(packet.getValue("username") + " has disconnected.");
 				}
-				
+
 				if (id.equals("game_sync")) {
-					print(packet.getValue("name") + "\n\tPosition: " + packet.getValue("position_x") + ", " + packet.getValue("position_y") + "\n\tRotation: " + packet.getValue("rotation"));
+					print(packet.getValue("name") + "\n\tPosition: " + packet.getValue("position_x") + ", "
+							+ packet.getValue("position_y") + "\n\tRotation: " + packet.getValue("rotation"));
 				}
 
 			}

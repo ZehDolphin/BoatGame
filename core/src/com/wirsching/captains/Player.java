@@ -17,8 +17,8 @@ import com.wirsching.math.Point2f;
  */
 public class Player extends Captain {
 	
-	public Player() {
-		super("player");
+	public Player(String name) {
+		super(name);
 		
 		controlShip((Ship) EntityHandler.getEntity(0));
 		
@@ -31,7 +31,7 @@ public class Player extends Captain {
 		if (Gdx.input.isKeyPressed(Keys.RIGHT_ARROW) && toggle) {
 			toggle = false;
 			
-			controlShip(EntityHandler.getNextShip(getCurrentShip()));
+			controlShip(EntityHandler.getNextShip(getCurrentShip(), getName()));
 			
 		} else if (!Gdx.input.isKeyPressed(Keys.RIGHT_ARROW) && !toggle) {
 			toggle = true;

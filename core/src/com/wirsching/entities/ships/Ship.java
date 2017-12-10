@@ -15,6 +15,20 @@ public class Ship extends MovableEntity {
 		setRenderOrder(0);
 	}
 	
+	/**
+	 * Name of the current player that owns this ship. <br>
+	 */
+	public String player = "undefined";
+	
+	public Ship setPlayer(String player) {
+		this.player = player;
+		return  this;
+	}
+	
+	public String getPlayer() {
+		return player;
+	}
+	
 	private float health = 100.0f;
 	
 	public String toString() {

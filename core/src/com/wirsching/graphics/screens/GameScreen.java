@@ -75,7 +75,7 @@ public class GameScreen extends Screen {
 		
 		grid = new TextureRegion(new Texture("textures/grid.png"));
 
-		player = new Player();
+		player = new Player(name);
 
 
 		GuiHandler.addGui(new GuiPanel(50, 50, 200, 200)
@@ -84,6 +84,11 @@ public class GameScreen extends Screen {
 		GuiHandler.addGui(fpsLabel);
 
 		BoatGame.client = new GameClient();
+		
+		
+		
+		
+		
 
 	}
 
@@ -95,6 +100,13 @@ public class GameScreen extends Screen {
 
 	public static String name = "undefined";
 
+	
+	/**
+	 * How many times per second should the client sync their data to the server. <br>
+	 */
+	public float syncrate = 8;
+	private float synctime = 0;
+	
 	@Override
 	public void update() {
 
@@ -139,7 +151,14 @@ public class GameScreen extends Screen {
 		fpsLabel.setText("FPS: " + Gdx.graphics.getFramesPerSecond());
 
 		Ship s = player.getCurrentShip();
-		BoatGame.client.sendPacket(new Sync(name, s.getPosition(), s.getRotation()));
+		
+		
+		synctime += Graphics.getDelta();
+		if (synctime > 1 / syncrate) {
+			synctime = 0;
+			BoatGame.client.sendPacket(new Sync(name, s.getPosition(), s.getRotation()));
+		}
+		
 
 	}
 

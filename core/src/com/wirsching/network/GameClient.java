@@ -50,7 +50,7 @@ public class GameClient extends Client {
 			@Override
 			public void received(Packet packet) {
 				
-				System.out.println(packet.toString());
+				System.out.println("Received: " + packet.toString());
 				
 				String id = packet.getID().trim();
 
@@ -59,9 +59,6 @@ public class GameClient extends Client {
 						String s = packet.getValue(String.valueOf(i));
 						s = s.replaceAll("'", "\"");
 
-						System.out.println(s);
-						
-						
 						JSONObject o = new JSONObject(s);
 						
 						float x = o.getJSONObject("position").getFloat("x");
@@ -81,9 +78,6 @@ public class GameClient extends Client {
 							ship = (Ship) ctor.newInstance(x, y);
 							ship.setRotation(rotation);
 							ship.setHealth(health);
-							
-							
-							
 							
 							EntityHandler.addEntity(ship);
 						} catch (Exception e) {
