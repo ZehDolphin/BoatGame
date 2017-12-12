@@ -4,15 +4,16 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 import com.wirsching.entities.ships.Ship;
+import com.wirsching.graphics.screens.GameScreen;
 
 public class EntityHandler {
 
 	public static String generateEntityID() {
-		String answer = "undefined";
+		String answer = "";
 		while (!checkID(answer)) {
 			answer += 1;
 		}
-		return answer;
+		return "undefined";
 	}
 
 	private static boolean checkID(String id) {
@@ -40,6 +41,7 @@ public class EntityHandler {
 				return new Integer(o1.getRenderOrder()).compareTo(new Integer(o2.getRenderOrder()));
 			};
 		});
+		if (e instanceof Ship) GameScreen.getPlayer().addShip((Ship) e);
 	}
 
 	/**
@@ -51,11 +53,13 @@ public class EntityHandler {
 
 	public static Ship getNextShip(Ship ship, String player) {
 		Ship next = null;
-		int startIndex = entities.indexOf(ship);
+		int startIndex = 0;
+		if (ship != null) getEntitiesByTag(Tag.SHIP).indexOf(ship);
 		for (Entity e : getEntitiesByTag(Tag.SHIP)) {
-			if (entities.indexOf(e) > startIndex) {
+			if (getEntitiesByTag(Tag.SHIP).indexOf(e) > startIndex) {
 				Ship s = (Ship) e;
-				if (s.getPlayer() == player) {
+				System.out.println(s.toString());
+				if (s.getPlayer().equals(player)) {
 					next = s;
 					break;
 				}
@@ -64,7 +68,8 @@ public class EntityHandler {
 		if (next == null) {
 			for (Entity e : getEntitiesByTag(Tag.SHIP)) {
 				Ship s = (Ship) e;
-				if (s.getPlayer() == player) {
+				System.out.println(s.toString());
+				if (s.getPlayer().equals(player)) {
 					next = s;
 					break;
 				}

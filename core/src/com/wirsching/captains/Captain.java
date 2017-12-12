@@ -1,5 +1,7 @@
 package com.wirsching.captains;
 
+import java.util.ArrayList;
+
 import com.wirsching.entities.ships.Ship;
 
 /**
@@ -17,24 +19,49 @@ public class Captain {
 	/**
 	 * The ship that this captain is currently in control over. <br>
 	 */
-	private Ship currentShip = null;
+	private int currentShip = 0;
+	
+	/**
+	 * This ArrayList keeps track of the captains available ships. <br>
+	 */
+	private ArrayList<Ship> ships = new ArrayList<Ship>();
 	
 	public Captain(String name) {
 		setName(name);
 	}
 	
+	public void addShip(Ship s) {
+		ships.add(s);
+	}
+	
+	public Ship getShip(int index) {
+		return ships.get(index);
+	}
+	
+	public int getNumberOfShips() {
+		return ships.size();
+	}
+	
+	public Ship getNextShip() {
+		return (currentShip == getNumberOfShips() - 1) ? getShip(0) : getShip(currentShip + 1);
+	}
+	
 	/**
 	 * Select which ship this captain should have control over. <br>
 	 */
-	public void controlShip(Ship ship) {
+	public void controlShip(int ship) {
 		this.currentShip = ship;
+	}
+	
+	public void controlShip(Ship ship) {
+		currentShip = ships.indexOf(ship);
 	}
 
 	/**
 	 * Returns the ship that this captain is currently controlling. <br>
 	 */
 	public Ship getCurrentShip() {
-		return currentShip;
+		return getShip(currentShip);
 	}
 	
 	/**

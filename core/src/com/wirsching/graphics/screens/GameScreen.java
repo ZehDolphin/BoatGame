@@ -11,12 +11,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.wirsching.BoatGame;
 import com.wirsching.Resources;
 import com.wirsching.captains.Player;
-import com.wirsching.captains.SimpleBot;
 import com.wirsching.entities.EntityHandler;
-import com.wirsching.entities.ships.MetalBoat;
-import com.wirsching.entities.ships.OakBoat;
 import com.wirsching.entities.ships.Ship;
-import com.wirsching.entities.turrets.StoneThrower;
 import com.wirsching.graphics.Camera;
 import com.wirsching.graphics.Graphics;
 import com.wirsching.graphics.GuiCamera;
@@ -24,10 +20,7 @@ import com.wirsching.graphics.Screen;
 import com.wirsching.graphics.gui.GuiHandler;
 import com.wirsching.graphics.gui.GuiLabel;
 import com.wirsching.graphics.gui.GuiPanel;
-import com.wirsching.input.Keys;
 import com.wirsching.input.Mouse;
-import com.wirsching.math.Math;
-import com.wirsching.math.Point2f;
 import com.wirsching.network.GameClient;
 import com.wirsching.network.packets.Sync;
 
@@ -36,7 +29,7 @@ public class GameScreen extends Screen {
 	public static Camera camera;
 	public static GuiCamera guiCamera;
 
-	public Player player;
+	public static Player player;
 
 	private TextureRegion grid;
 
@@ -44,7 +37,6 @@ public class GameScreen extends Screen {
 
 	public GameScreen() {
 		setId("GAME");
-		
 
 		Gdx.graphics.setVSync(false);
 
@@ -68,35 +60,27 @@ public class GameScreen extends Screen {
 		Mouse.setCurrentCamera(camera.camera);
 		Mouse.setCurrentGuiCamera(guiCamera.camera);
 
-//		EntityHandler.addEntity(new OakBoat(0, 0).addTurret(0, new StoneThrower()));
-		EntityHandler.addEntity(new MetalBoat(0, 0).addTurret(0, new StoneThrower()));
-
-
-		
+		// Load grid texture.
 		grid = new TextureRegion(new Texture("textures/grid.png"));
 
+		// Create the local player.
 		player = new Player(name);
-
 
 		GuiHandler.addGui(new GuiPanel(50, 50, 200, 200)
 				.add(new GuiLabel(100, 170).setText("Hello World!").centerText().setScale(0.8f)));
 
 		GuiHandler.addGui(fpsLabel);
 
+		
+		// Start the client.
 		BoatGame.client = new GameClient();
-		
-		
-		
-		
-		
-
 	}
 
-	float cameraTX = 0, cameraTY = 0;
-	float cameraMultiplier = 1;
 
-	boolean toggle = false;
-	boolean fullscreen = false;
+	public static Player getPlayer() {
+		return player;
+	}
+	
 
 	public static String name = "undefined";
 
@@ -110,53 +94,34 @@ public class GameScreen extends Screen {
 	@Override
 	public void update() {
 
-		if (Gdx.input.isKeyPressed(Keys.CLOSE))
-			Gdx.app.exit();
-
-		if (Gdx.input.isKeyPressed(Keys.FULLSCREEN) && toggle) {
-			toggle = false;
-
-			fullscreen = !fullscreen;
-			if (fullscreen) {
-				Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
-				// Gdx.graphics.setUndecorated(true);
-				// Gdx.graphics.setWindowedMode(Gdx.graphics.getDisplayMode().width,
-				// Gdx.graphics.getDisplayMode().height);
-			} else {
-				// Gdx.graphics.setUndecorated(false);
-				Gdx.graphics.setWindowedMode(1280, 720);
-			}
-
-		} else if (!Gdx.input.isKeyPressed(Keys.FULLSCREEN) && !toggle) {
-			toggle = true;
-		}
-
-		cameraTX = player.getCurrentShip().getX();
-		cameraTY = player.getCurrentShip().getY();
-
-		float angle = Math.getAngle(new Point2f(camera.getX(), camera.getY()), new Point2f(cameraTX, cameraTY));
-		float distance = Math.getDistance(new Point2f(camera.getX(), camera.getY()), new Point2f(cameraTX, cameraTY));
-
-		cameraMultiplier = 3f;
-
-		camera.setX((float) (camera.getX() + Math.cos(angle) * distance * cameraMultiplier * Graphics.getDelta()));
-		camera.setY((float) (camera.getY() + Math.sin(angle) * distance * cameraMultiplier * Graphics.getDelta()));
-
+		// Updates camera movement.
+		camera.update();
+		
+		// Updates the local players actions.
 		player.update();
+		
+		// Updates all entities localy.
 		EntityHandler.update();
+		
 		GuiHandler.update();
 
 		fpsLabel.setY(Graphics.getHeight() - fpsLabel.getHeight() - 3);
 		fpsLabel.setScale(0.8f);
 		fpsLabel.setText("FPS: " + Gdx.graphics.getFramesPerSecond());
 
-		Ship s = player.getCurrentShip();
 		
 		
-		synctime += Graphics.getDelta();
-		if (synctime > 1 / syncrate) {
-			synctime = 0;
-			BoatGame.client.sendPacket(new Sync(name, s.getPosition(), s.getRotation()));
+		if (player.getCurrentShip() != null) camera.setTarget(player.getCurrentShip().getPosition());
+		
+		
+		
+		if (player.getCurrentShip() != null) {
+			Ship s = player.getCurrentShip();
+			synctime += Graphics.getDelta();
+			if (synctime > 1 / syncrate) {
+				synctime = 0;
+				BoatGame.client.sendPacket(new Sync(name, s.getPosition(), s.getRotation()));
+			}
 		}
 		
 
@@ -184,11 +149,6 @@ public class GameScreen extends Screen {
 			}
 
 			EntityHandler.render();
-
-			// Vector3 v = GameScreen.camera.screenCoords(0, 0);
-			// font.draw(Graphics.getSpriteBatch(), "FPS: " +
-			// Gdx.graphics.getFramesPerSecond(), v.x, v.y);
-
 		}
 		Graphics.end();
 

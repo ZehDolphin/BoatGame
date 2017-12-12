@@ -34,11 +34,13 @@ public class GameServer extends Thread {
 	}
 
 	public void initPlayer(String name) {
-		if (name == "ZehDolphin") {
+		if (name.equals("ZehDolphin")) {
 
-			EntityHandler.addEntity(new OakBoat(100, 100).addTurret(0, new StoneThrower()).setPlayer("ZehDolphin")
-					.setID("ZehDolphin_ship_001"));
+			EntityHandler.addEntity(new OakBoat(100, 100).setPlayer("ZehDolphin").addTurret(0, new StoneThrower()));
+			EntityHandler.addEntity(new MetalBoat(-100, 100).setPlayer("ZehDolphin").addTurret(0, new StoneThrower()).addTurret(1, new StoneThrower()));
 
+			print(EntityHandler.getEntity(0).toString());
+			
 		}
 	}
 
@@ -65,8 +67,6 @@ public class GameServer extends Thread {
 
 		Resources.dontLoadAssets();
 
-		EntityHandler.addEntity(new OakBoat(100, 100));
-
 		server = new Server(port).setConnectionHandler(new ConnectionHandler() {
 
 			@Override
@@ -80,11 +80,13 @@ public class GameServer extends Thread {
 				String id = packet.getID().trim();
 
 				if (id.equals("game_connect")) {
+					
+					initPlayer(packet.getValue("username"));
+					
 					players.add(new Player(packet.getValue("username"), packet.getIP(), packet.getPort()));
 
 					server.sendPacket(new SyncEntities(), packet.getIP(), packet.getPort());
 
-					initPlayer(packet.getValue("username"));
 
 					// TODO - broadcast player join to all players.
 

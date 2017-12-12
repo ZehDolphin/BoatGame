@@ -35,11 +35,13 @@ public class Ship extends MovableEntity {
 		
 		String s = "{";
 		
-		s += "'class': '" + getClass().getName()  + "',";
-		s += "'position': {'x': '"+getX()+"', 'y': '"+getY()+"'},";
-		s += "'rotation': '" + getRotation()  + "',";
-		s += "'health': '" + getHealth()  + "',";
-		s += "'upgrade_slots': {";
+		s += "'class': '" + getClass().getName()  + "', ";
+		s += "'position': {'x': '"+getX()+"', 'y': '"+getY()+"'}, ";
+		s += "'rotation': '" + getRotation()  + "', ";
+		s += "'health': '" + getHealth()  + "', ";
+		s += "'player': '" + getPlayer()  + "', ";
+		s += "'id': '" + getID()  + "', ";
+		s += "'upgrade_slots': [";
 		
 		for (int i = 0; i < getSlots(); i++) {
 			if (slots[i].turret == null) continue;
@@ -49,7 +51,17 @@ public class Ship extends MovableEntity {
 			if (i != getSlots() - 1) s += ", ";
 		}
 		
-		s += "}";
+		s += "], ";
+		
+		s += "'tags': [";
+		
+		for (int i = 0; i < getTags().length; i++) {
+			if (getTags()[i] == null) break;
+			s += "'" + getTags()[i].name() + "'";
+			if (i != getTags().length - 1) s += ", ";
+		}
+		
+		s += "]";
 
 		
 		s += "}";

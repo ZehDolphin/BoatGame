@@ -31,6 +31,7 @@ public class Animation {
 	private PlayState playState = STOP;
 
 	public Animation(SpriteSheet sheet) {
+		if (sheet == null) return;
 		sprites = sheet.getAsArray();
 	}
 	
