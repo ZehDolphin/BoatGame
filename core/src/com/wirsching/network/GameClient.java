@@ -87,7 +87,7 @@ public class GameClient extends Client {
 								ship.addTag(Tag.valueOf(tags.getString(j)));
 							}
 							
-							EntityHandler.addEntity(ship);
+							EntityHandler.addShip(ship, GameScreen.getPlayer());
 						} catch (Exception e) {
 						}
 

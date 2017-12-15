@@ -22,7 +22,7 @@ import com.wirsching.graphics.gui.GuiLabel;
 import com.wirsching.graphics.gui.GuiPanel;
 import com.wirsching.input.Mouse;
 import com.wirsching.network.GameClient;
-import com.wirsching.network.packets.Sync;
+import com.wirsching.network.packets.SyncPlayer;
 
 public class GameScreen extends Screen {
 
@@ -120,7 +120,7 @@ public class GameScreen extends Screen {
 			synctime += Graphics.getDelta();
 			if (synctime > 1 / syncrate) {
 				synctime = 0;
-				BoatGame.client.sendPacket(new Sync(name, s.getPosition(), s.getRotation()));
+				BoatGame.client.sendPacket(new SyncPlayer(getPlayer()));
 			}
 		}
 		

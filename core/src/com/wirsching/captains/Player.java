@@ -1,7 +1,6 @@
 package com.wirsching.captains;
 
 import com.badlogic.gdx.Gdx;
-import com.wirsching.entities.EntityHandler;
 import com.wirsching.entities.turrets.Turret;
 import com.wirsching.input.Keys;
 import com.wirsching.input.Mouse;

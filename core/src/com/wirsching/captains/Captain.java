@@ -61,6 +61,7 @@ public class Captain {
 	 * Returns the ship that this captain is currently controlling. <br>
 	 */
 	public Ship getCurrentShip() {
+		if (getNumberOfShips() == 0) return null;
 		return getShip(currentShip);
 	}
 	

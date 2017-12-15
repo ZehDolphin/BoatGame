@@ -42,6 +42,10 @@ public class GameServer extends Thread {
 			print(EntityHandler.getEntity(0).toString());
 			
 		}
+		
+		if (name.equals("bob")) {
+			EntityHandler.addEntity(new OakBoat(0, 0).setPlayer("bob"));
+		}
 	}
 
 	public void run() {

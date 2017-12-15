@@ -3,8 +3,8 @@ package com.wirsching.entities;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+import com.wirsching.captains.Player;
 import com.wirsching.entities.ships.Ship;
-import com.wirsching.graphics.screens.GameScreen;
 
 public class EntityHandler {
 
@@ -41,7 +41,21 @@ public class EntityHandler {
 				return new Integer(o1.getRenderOrder()).compareTo(new Integer(o2.getRenderOrder()));
 			};
 		});
-		if (e instanceof Ship) GameScreen.getPlayer().addShip((Ship) e);
+		
+	}
+	
+	/**
+	 * Adds a new Entity to the list.
+	 */
+	public static void addShip(Ship e, Player p) {
+		entities.add(e);
+		entities.sort(new Comparator<Entity>() {
+			@Override
+			public int compare(Entity o1, Entity o2) {
+				return new Integer(o1.getRenderOrder()).compareTo(new Integer(o2.getRenderOrder()));
+			};
+		});
+		p.addShip((Ship) e);
 	}
 
 	/**
