@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.wirsching.entities.Entity;
 import com.wirsching.entities.EntityHandler;
 import com.wirsching.entities.Tag;
 import com.wirsching.entities.ships.Ship;
@@ -63,9 +64,9 @@ public class GameClient extends Client {
 
 						float rotation = o.getFloat("rotation");
 						float health = o.getFloat("health");
-						String ID = o.getString("id");
+						int ID = o.getInt("id");
 						String player = o.getString("player");
-						
+
 						JSONArray tags = o.getJSONArray("tags");
 						JSONArray upgradeSlots = o.getJSONArray("upgrade_slots");
 
@@ -82,16 +83,34 @@ public class GameClient extends Client {
 							ship.setHealth(health);
 							ship.setID(ID);
 							ship.setPlayer(player);
-							
+
 							for (int j = 0; j < tags.length(); j++) {
 								ship.addTag(Tag.valueOf(tags.getString(j)));
 							}
-							
-							EntityHandler.addShip(ship, GameScreen.getPlayer());
+
+							if (player.equals(GameScreen.getPlayer().getName()))
+								EntityHandler.addShip(ship, GameScreen.getPlayer());
+							else
+								EntityHandler.addEntity(ship);
 						} catch (Exception e) {
 						}
 
 					}
+				}
+
+				if (id.equals("game_sync")) {
+
+					for (Entity e : EntityHandler.getEntitiesByTag(Tag.SHIP)) {
+						Ship s = (Ship) e;
+						if (GameScreen.getPlayer().getCurrentShip() != null)
+							if (s.getID() == GameScreen.getPlayer().getCurrentShip().getID())
+								continue;
+						if (s.getID() == Integer.parseInt(packet.getValue("ship_id"))) {
+							s.setPosition(Float.parseFloat(packet.getValue("position_x")), Float.parseFloat(packet.getValue("position_y")));
+							s.setRotation(Float.parseFloat(packet.getValue("rotation")));
+						}
+					}
+
 				}
 
 			}

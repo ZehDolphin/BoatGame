@@ -23,7 +23,7 @@ public class Entity extends Rectangle implements Drawable {
 	/**
 	 * An unique identifier for each entity.
 	 */
-	public String id = EntityHandler.generateEntityID();
+	public int id = EntityHandler.generateEntityID();
 	
 	
 	/**
@@ -48,11 +48,11 @@ public class Entity extends Rectangle implements Drawable {
 		super(x, y, width, height);
 	}
 	
-	public String getID() {
+	public int getID() {
 		return id;
 	}
 	
-	public Entity setID(String id) {
+	public Entity setID(int id) {
 		this.id = id;
 		return this;
 	}

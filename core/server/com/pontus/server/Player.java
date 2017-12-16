@@ -11,5 +11,17 @@ public class Player {
 		this.ip = ip;
 		this.port = port;
 	}
+	
+	public String getIP() {
+		return ip;
+	}
+	
+	public String getName() {
+		return username;
+	}
 
+	public int getPort() {
+		return port;
+	}
+	
 }

@@ -10,7 +10,12 @@ import com.wirsching.network.GameClient;
 public class BoatGame extends ApplicationAdapter {
 
 	public static GameClient client;
-
+	
+	/**
+	 * How many times per second should the client sync their data to the server. <br>
+	 */
+	public static float syncrate = 16f;
+	
 	@Override
 	public void create() {
 

@@ -8,15 +8,15 @@ import com.wirsching.entities.ships.Ship;
 
 public class EntityHandler {
 
-	public static String generateEntityID() {
-		String answer = "";
+	public static int generateEntityID() {
+		int answer = 0;
 		while (!checkID(answer)) {
 			answer += 1;
 		}
-		return "undefined";
+		return answer;
 	}
 
-	private static boolean checkID(String id) {
+	private static boolean checkID(int id) {
 		for (Entity e : entities) {
 			if (id == e.id) {
 				return false;
@@ -30,6 +30,10 @@ public class EntityHandler {
 	 */
 	public static ArrayList<Entity> entities = new ArrayList<Entity>();
 
+	public static void remove(Entity e) {
+		e.remove();
+	}
+	
 	/**
 	 * Adds a new Entity to the list.
 	 */
@@ -45,7 +49,7 @@ public class EntityHandler {
 	}
 	
 	/**
-	 * Adds a new Entity to the list.
+	 * Adds a new Ship to the list.
 	 */
 	public static void addShip(Ship e, Player p) {
 		entities.add(e);
@@ -112,8 +116,10 @@ public class EntityHandler {
 			}
 		}
 
-		for (Entity e : entities) {
-			e.update();
+		for (int i = 0; i < entities.size(); i++) {
+			if (i < entities.size()) {
+				getEntity(i).update();
+			}
 		}
 	}
 

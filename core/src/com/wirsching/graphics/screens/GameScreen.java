@@ -23,6 +23,7 @@ import com.wirsching.graphics.gui.GuiPanel;
 import com.wirsching.input.Mouse;
 import com.wirsching.network.GameClient;
 import com.wirsching.network.packets.SyncPlayer;
+import com.wirsching.network.packets.SyncPlayer_1;
 
 public class GameScreen extends Screen {
 
@@ -85,15 +86,11 @@ public class GameScreen extends Screen {
 	public static String name = "undefined";
 
 	
-	/**
-	 * How many times per second should the client sync their data to the server. <br>
-	 */
-	public float syncrate = 8;
 	private float synctime = 0;
 	
 	@Override
 	public void update() {
-
+		
 		// Updates camera movement.
 		camera.update();
 		
@@ -114,16 +111,12 @@ public class GameScreen extends Screen {
 		if (player.getCurrentShip() != null) camera.setTarget(player.getCurrentShip().getPosition());
 		
 		
-		
-		if (player.getCurrentShip() != null) {
-			Ship s = player.getCurrentShip();
-			synctime += Graphics.getDelta();
-			if (synctime > 1 / syncrate) {
-				synctime = 0;
-				BoatGame.client.sendPacket(new SyncPlayer(getPlayer()));
-			}
-		}
-		
+		Ship s = getPlayer().getCurrentShip();
+		synctime += Graphics.getDelta();
+		if (synctime > 1f / BoatGame.syncrate) {
+			synctime = 0;
+			BoatGame.client.sendPacket(new SyncPlayer(getPlayer()));
+		}		
 
 	}
 
