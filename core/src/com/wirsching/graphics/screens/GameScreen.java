@@ -23,7 +23,6 @@ import com.wirsching.graphics.gui.GuiPanel;
 import com.wirsching.input.Mouse;
 import com.wirsching.network.GameClient;
 import com.wirsching.network.packets.SyncPlayer;
-import com.wirsching.network.packets.SyncPlayer_1;
 
 public class GameScreen extends Screen {
 
@@ -111,11 +110,17 @@ public class GameScreen extends Screen {
 		if (player.getCurrentShip() != null) camera.setTarget(player.getCurrentShip().getPosition());
 		
 		
-		Ship s = getPlayer().getCurrentShip();
+		BoatGame.syncrate = 60f / getPlayer().getShips().size();
+		
 		synctime += Graphics.getDelta();
 		if (synctime > 1f / BoatGame.syncrate) {
 			synctime = 0;
-			BoatGame.client.sendPacket(new SyncPlayer(getPlayer()));
+			
+			for (Ship s : getPlayer().getShips()) {
+				BoatGame.client.sendPacket(new SyncPlayer(s));
+			}
+			
+			
 		}		
 
 	}

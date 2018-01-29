@@ -6,6 +6,7 @@ import com.wirsching.entities.Entity;
 import com.wirsching.entities.EntityHandler;
 import com.wirsching.entities.projectiles.Projectile;
 import com.wirsching.entities.ships.Ship;
+import com.wirsching.graphics.screens.GameScreen;
 import com.wirsching.math.Point2f;
 
 public abstract class Turret extends Entity {
@@ -26,9 +27,9 @@ public abstract class Turret extends Entity {
 	 */
 	protected long last_fired = 0;
 	
-	public Turret() {
-
-	}
+	private float targetRotation = 0;
+	
+	public Turret() {}
 	
 	@Deprecated
 	public Turret(float x, float y) {
@@ -81,12 +82,26 @@ public abstract class Turret extends Entity {
 	
 	@Override
 	public void update() {
+		super.update();
+		
+		if (!GameScreen.getPlayer().hasShip(parent)) {
 
+		
+		rotateToTarget(getTargetRotation() % 360 + 90);
+		}
 	}
 	
 	@Override
 	public void draw() {
 
+	}
+
+	public float getTargetRotation() {
+		return targetRotation;
+	}
+
+	public void setTargetRotation(float targetRotation) {
+		this.targetRotation = targetRotation;
 	}
 	
 	public void setThrowForce(float throwForce) {

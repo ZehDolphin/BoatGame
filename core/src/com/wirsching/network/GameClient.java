@@ -1,6 +1,7 @@
 package com.wirsching.network;
 
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
@@ -11,6 +12,7 @@ import com.wirsching.entities.Entity;
 import com.wirsching.entities.EntityHandler;
 import com.wirsching.entities.Tag;
 import com.wirsching.entities.ships.Ship;
+import com.wirsching.entities.turrets.Turret;
 import com.wirsching.graphics.screens.GameScreen;
 import com.wirsching.net.client.Client;
 import com.wirsching.net.client.ConnectionHandler;
@@ -48,12 +50,25 @@ public class GameClient extends Client {
 			@Override
 			public void received(Packet packet) {
 
-				System.out.println("Received: " + packet.toString());
-
 				String id = packet.getID().trim();
 
-				if (id.equals("game_sync_entities")) {
-					for (int i = 0; i < Integer.parseInt(packet.getValue("num_entities")); i++) {
+				if (id.equals("game_sync_ships")) {
+
+					System.out.println(packet.toString());
+
+					ArrayList<Entity> ships = EntityHandler.getEntitiesByTag(Tag.SHIP);
+					ArrayList<Ship> skip = new ArrayList<Ship>();
+					
+					for (int i = 0; i < ships.size(); i++) {
+						if (i >= ships.size())
+							break;
+						if (!GameScreen.getPlayer().getShips().contains(ships.get(i)))
+							ships.get(i).remove();
+						else 
+							skip.add((Ship) ships.get(i));
+					}
+
+					for (int i = 0; i < Integer.parseInt(packet.getValue("num_ships")); i++) {
 						String s = packet.getValue(String.valueOf(i));
 						s = s.replaceAll("'", "\"");
 
@@ -66,7 +81,13 @@ public class GameClient extends Client {
 						float health = o.getFloat("health");
 						int ID = o.getInt("id");
 						String player = o.getString("player");
-
+						
+						boolean skipThis = false;
+						for (Ship ship : skip) {
+							if (ship.getID() == ID) skipThis = true;
+						}
+						if (skipThis) continue;
+						
 						JSONArray tags = o.getJSONArray("tags");
 						JSONArray upgradeSlots = o.getJSONArray("upgrade_slots");
 
@@ -88,6 +109,24 @@ public class GameClient extends Client {
 								ship.addTag(Tag.valueOf(tags.getString(j)));
 							}
 
+							for (int j = 0; j < upgradeSlots.length(); j++) {
+
+								Turret t;
+								try {
+
+									Class<?> clazz2 = Class.forName(upgradeSlots.getJSONObject(j).getString("class"));
+									Constructor<?>[] c2 = clazz2.getConstructors();
+									Constructor<?> ctor2 = c2[0];
+									t = (Turret) ctor2.newInstance();
+
+									ship.addTurret(j, t);
+
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+
+							}
+
 							if (player.equals(GameScreen.getPlayer().getName()))
 								EntityHandler.addShip(ship, GameScreen.getPlayer());
 							else
@@ -105,9 +144,20 @@ public class GameClient extends Client {
 						if (GameScreen.getPlayer().getCurrentShip() != null)
 							if (s.getID() == GameScreen.getPlayer().getCurrentShip().getID())
 								continue;
+						try {
 						if (s.getID() == Integer.parseInt(packet.getValue("ship_id"))) {
-							s.setPosition(Float.parseFloat(packet.getValue("position_x")), Float.parseFloat(packet.getValue("position_y")));
-							s.setRotation(Float.parseFloat(packet.getValue("rotation")));
+							s.setTargetPosition(Float.parseFloat(packet.getValue("position_x")), Float.parseFloat(packet.getValue("position_y")));
+							s.setTargetRotation(Float.parseFloat(packet.getValue("rotation")));
+
+							int numSlots = Integer.parseInt(packet.getValue("num_slots"));
+							for (int i = 0; i < numSlots; i++) {
+								if (s.getTurret(i) != null)
+									s.getTurret(i).setTargetRotation(Float.parseFloat(packet.getValue("slot:" + i)));
+							}
+
+						}
+						} catch(Exception ee) {
+							
 						}
 					}
 
@@ -121,8 +171,9 @@ public class GameClient extends Client {
 			}
 
 			@Override
-			public void disconnected() {
-
+			public void disconnected(Packet packet) {
+				// TODO Auto-generated method stub
+				
 			}
 
 		});

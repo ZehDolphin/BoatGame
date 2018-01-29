@@ -29,7 +29,7 @@ public class Entity extends Rectangle implements Drawable {
 	/**
 	 * Rotation measured in degrees relative to the world.
 	 */
-	private float rotation = 360f * 10000f;
+	private float rotation = 360f * 10f;
 	
 	/**
 	 * Measured in degrees per second.
@@ -77,10 +77,10 @@ public class Entity extends Rectangle implements Drawable {
 	}
 	
 	/**
-	 * Sets the rotation and adds 3600000 deg to it.
+	 * Sets the rotation and adds 3600 deg to it.
 	 */
 	public void setRotation(float rotation) {
-		this.rotation = rotation + 360 * 10000f;
+		this.rotation = rotation + 360 * 10f;
 	}
 	
 	/**

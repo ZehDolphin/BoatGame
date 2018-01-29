@@ -10,7 +10,6 @@ import com.wirsching.input.Mouse;
 import com.wirsching.input.TouchSurface;
 import com.wirsching.math.Math;
 import com.wirsching.math.Point2f;
-import com.wirsching.network.packets.SendAction;
 import com.wirsching.network.packets.SyncPlayer;
 
 /**
@@ -118,14 +117,14 @@ public class Player extends Captain {
 			moved = true;
 		}
 		
-		if (moved) {
-			Ship s = getCurrentShip();
-			synctime += Graphics.getDelta();
-			if (synctime > 1 / BoatGame.syncrate) {
-				synctime = 0;
-				BoatGame.client.sendPacket(new SyncPlayer(this));
-			}
-		} else synctime = 1 / BoatGame.syncrate;
+//		if (moved) {
+//			Ship s = getCurrentShip();
+//			synctime += Graphics.getDelta();
+//			if (synctime > 1 / BoatGame.syncrate) {
+//				synctime = 0;
+//				BoatGame.client.sendPacket(new SyncPlayer(this));
+//			}
+//		} else synctime = 1 / BoatGame.syncrate;
 
 	}
 

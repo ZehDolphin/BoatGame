@@ -1,10 +1,14 @@
 package com.wirsching.entities.ships;
 
+import java.util.ArrayList;
+
 import com.wirsching.entities.Entity;
 import com.wirsching.entities.EntityHandler;
 import com.wirsching.entities.MovableEntity;
 import com.wirsching.entities.Tag;
 import com.wirsching.entities.turrets.Turret;
+import com.wirsching.graphics.Graphics;
+import com.wirsching.graphics.screens.GameScreen;
 import com.wirsching.math.Math;
 import com.wirsching.math.Point2f;
 
@@ -14,6 +18,9 @@ public class Ship extends MovableEntity {
 		addTag(Tag.SHIP);
 		setRenderOrder(0);
 	}
+	
+	public Point2f targetPosition = new Point2f();
+	public float targetRotation = getRotation();
 	
 	/**
 	 * Name of the current player that owns this ship. <br>
@@ -138,12 +145,35 @@ public class Ship extends MovableEntity {
 		return getRadius() * 0.80f;
 	}
 	
+	private ArrayList<Ship> collidedWith = new ArrayList<Ship>();
+	
 	@Override
 	public void update() {
 		super.update();
+		
+		
+		if (!GameScreen.getPlayer().hasShip(this)) {
+
+			rotateToTarget(getTargetRotation() % 360 + 90);
+			
+			
+			float xx = getTargetPosition().getX();
+			float yy = getTargetPosition().getY();
+			
+			float m = 16;
+			
+			if (xx < getX()) setX(getX() - Math.abs(xx - getX()) * Graphics.getDelta() * m);
+			if (xx > getX()) setX(getX() + Math.abs(xx - getX()) * Graphics.getDelta() * m);
+			if (yy < getY()) setY(getY() - Math.abs(yy - getY()) * Graphics.getDelta() * m);
+			if (yy > getY()) setY(getY() + Math.abs(yy - getY()) * Graphics.getDelta() * m);
+			
+			
+		}
+		
 
 		radius = Float.max(getWidth(), getHeight()) / 2 + 0;
 
+		// Remove the Ship if it's health is below or equal to zero.
 		if (getHealth() <= 0) remove();
 
 		for (Entity e : EntityHandler.entities) {
@@ -156,14 +186,16 @@ public class Ship extends MovableEntity {
 			if (distance > radius * 2 + s.radius * 2)
 				continue;
 
-			// float angle = Math.getAngle(getPosition(), e.getPosition());
+			 float angle = Math.getAngle(getPosition(), e.getPosition());
 
 			if (distance - (radius) - (s.radius) < 0) {
-				s.driftDirection = getRotation();
-				s.driftSpeed = (currentSpeed * 1.3f);
 
 				// "break" the ship
-				setCurrentSpeed(getCurrentSpeed() * 0.1f);
+				
+//				setCurrentSpeed(-getCurrentSpeed());
+				setX((float) (getX() + Math.cos(angle - 180) * -(distance - (radius) - (s.radius))));
+				setY((float) (getY() + Math.sin(angle - 180) * -(distance - (radius) - (s.radius))));
+				
 			}
 		}
 
@@ -180,6 +212,26 @@ public class Ship extends MovableEntity {
 				s.getTurret().draw();
 		}
 
+	}
+
+	public Point2f getTargetPosition() {
+		return targetPosition;
+	}
+
+	public void setTargetPosition(float x, float y) {
+		targetPosition.set(x, y);
+	}
+	
+	public void setTargetPosition(Point2f targetPosition) {
+		this.targetPosition = targetPosition;
+	}
+
+	public float getTargetRotation() {
+		return targetRotation;
+	}
+
+	public void setTargetRotation(float targetRotation) {
+		this.targetRotation = targetRotation;
 	}
 
 	

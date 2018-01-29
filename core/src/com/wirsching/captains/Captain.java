@@ -30,6 +30,10 @@ public class Captain {
 		setName(name);
 	}
 	
+	public boolean hasShip(Ship s) {
+		return ships.contains(s);
+	}
+	
 	public void addShip(Ship s) {
 		ships.add(s);
 	}
@@ -40,6 +44,10 @@ public class Captain {
 	
 	public int getNumberOfShips() {
 		return ships.size();
+	}
+	
+	public ArrayList<Ship> getShips() {
+		return ships;
 	}
 	
 	public Ship getNextShip() {
