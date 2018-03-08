@@ -27,6 +27,11 @@ public class Mouse {
 		Vector3 v = currentCamera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
 		return new Point2f(v.x, v.y);
 	}
+	
+	public static Point2f getGUIPosition() {
+		Vector3 v = currentGuiCamera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+		return new Point2f(v.x, v.y);
+	}
 
 	static boolean toggle = false;
 	

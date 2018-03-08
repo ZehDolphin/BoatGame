@@ -25,7 +25,6 @@ import com.wirsching.entities.EntityHandler;
 import com.wirsching.entities.Tag;
 import com.wirsching.entities.ships.Ship;
 import com.wirsching.entities.turrets.Turret;
-import com.wirsching.graphics.screens.GameScreen;
 import com.wirsching.net.client.ConnectionHandler;
 import com.wirsching.net.packets.Packet;
 import com.wirsching.net.packets.PacketServerError;
@@ -75,8 +74,6 @@ public class GameServer extends Thread {
 			
 			String ships = rs.getString("ships");
 
-			print(ships);
-
 			JSONArray arr = new JSONArray(ships);
 			for (int i = 0; i < arr.length(); i++) {
 				JSONObject o = arr.getJSONObject(i);
@@ -88,8 +85,6 @@ public class GameServer extends Thread {
 				float health = o.getFloat("health");
 				int ID = o.getInt("id");
 				String player = o.getString("player");
-
-				print(player);
 
 				JSONArray tags = o.getJSONArray("tags");
 				JSONArray upgradeSlots = o.getJSONArray("upgrade_slots");
@@ -130,15 +125,12 @@ public class GameServer extends Thread {
 
 					}
 
-					print("added: \n" + ship.toString());
-					
 					EntityHandler.addEntity(ship);
 				} catch (Exception e) {
 				}
 
 			}
 			
-			System.out.println("Sync ships!");
 			broadcast(new SyncShips());
 
 		} catch (SQLException ex) {
@@ -278,8 +270,6 @@ public class GameServer extends Thread {
 						
 						string = string.replaceAll("'", "\"");
 
-						System.out.println(string);
-						
 						s.executeUpdate("UPDATE users SET ships = " + "'["+ string +"]'" + " WHERE username='"+packet.getValue("username")+"'");
 						
 

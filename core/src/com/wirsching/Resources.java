@@ -48,6 +48,10 @@ public class Resources {
 		add("projectiles", new SpriteSheet("textures/projectiles"));
 		add("gui_panel", new SpriteSheet(new Texture("textures/window.png")).loadGrid(10, 10));
 		
+		add("gui_button", new SpriteSheet(new Texture("textures/input.png")).loadGrid(2, 2));
+		add("gui_button_hover", new SpriteSheet(new Texture("textures/input_hover.png")).loadGrid(2, 2));
+
+		
 		add("animation_stonethrower", new SpriteSheet(new Texture("textures/turrets/stoneThrower.png")).loadGrid(21, 21));
 		add("animation_dynamitethrower", new SpriteSheet(new Texture("textures/turrets/dynamiteThrower.png")).loadGrid(21, 21));
 	}

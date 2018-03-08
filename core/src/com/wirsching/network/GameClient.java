@@ -36,7 +36,7 @@ public class GameClient extends Client {
 		if (input == null || input.trim().length() == 0)
 			System.exit(1);
 		final String host = input.trim();
-
+		
 		addConnectionHandler(new ConnectionHandler() {
 
 			@Override

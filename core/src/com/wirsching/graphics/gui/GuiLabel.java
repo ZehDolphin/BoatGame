@@ -11,11 +11,10 @@ public class GuiLabel extends GuiComponent {
 
 	private boolean centered = false;
 
+	private boolean centerV = false;
 
 	public GuiLabel(float x, float y) {
 		super(x, y, 0, 0);
-		
-		
 
 	}
 
@@ -23,12 +22,17 @@ public class GuiLabel extends GuiComponent {
 		centered = true;
 		return this;
 	}
-	
+
+	public GuiLabel centerVertical() {
+		centerV = true;
+		return this;
+	}
+
 	public GuiLabel setScale(float scale) {
 		font.setScale(scale);
 		return this;
 	}
-	
+
 	public GuiLabel setText(String text) {
 		this.text = text;
 		return this;
@@ -42,20 +46,36 @@ public class GuiLabel extends GuiComponent {
 	public void update() {
 
 	}
+	
+	@Override
+	public float getWidth() {
+		setWidth(font.getWidth(getText()));
+		return super.getWidth();
+	}
+	
+	@Override
+	public float getHeight() {
+		setHeight(font.getHeight(getText()));
+		return super.getHeight();
+	}
 
 	@Override
 	public void draw() {
-		
+
 		font = Fonts.ARIAL;
-		
+
 		font.setColor(Color.BLACK);
-		
+
 		Graphics.getGuiSpriteBatch().setShader(font.getShader());
 		setWidth(font.getWidth(getText()));
 		setHeight(font.getHeight(getText()));
 
-		if (!centered)font.draw(Graphics.getGuiSpriteBatch(), getText(), getX(), getY() + getHeight());
-		else font.draw(Graphics.getGuiSpriteBatch(), getText(), getX() - getWidth() / 2, getY() + getHeight());
+		float yOff = (centerV) ? -getHeight() / 2 : 0;
+
+		if (!centered)
+			font.draw(Graphics.getGuiSpriteBatch(), getText(), getX(), getY() + getHeight() + yOff);
+		else
+			font.draw(Graphics.getGuiSpriteBatch(), getText(), getX() - getWidth() / 2, getY() + getHeight() + yOff);
 		Graphics.getGuiSpriteBatch().setShader(null);
 	}
 

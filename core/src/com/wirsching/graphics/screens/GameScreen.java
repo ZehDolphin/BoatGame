@@ -26,9 +26,6 @@ import com.wirsching.network.packets.SyncPlayer;
 
 public class GameScreen extends Screen {
 
-	public static Camera camera;
-	public static GuiCamera guiCamera;
-
 	public static Player player;
 
 	private TextureRegion grid;
@@ -41,24 +38,17 @@ public class GameScreen extends Screen {
 		Gdx.graphics.setVSync(false);
 
 		// Request the user's name.
-		String input = (String) JOptionPane.showInputDialog(null, "Name:", "Connect to chat server",
-				JOptionPane.QUESTION_MESSAGE, null, null, "ZehDolphin");
-		if (input == null || input.trim().length() == 0)
-			System.exit(1);
-		name = input.trim();
+//		String input = (String) JOptionPane.showInputDialog(null, "Name:", "Connect to chat server",
+//				JOptionPane.QUESTION_MESSAGE, null, null, "ZehDolphin");
+//		if (input == null || input.trim().length() == 0)
+//			System.exit(1);
+//		name = input.trim();
+		
+		name = "ZehDolphin";
 
 		// Pixmap pm = new Pixmap(Gdx.files.internal("textures/cursor.png"));
 		// Gdx.graphics.setCursor(Gdx.graphics.newCursor(pm, 32, 32));
 		// pm.dispose();
-
-		Graphics.setSpriteBatch(new SpriteBatch());
-		Graphics.setShapeRenderer(new ShapeRenderer());
-		Graphics.setGuiSpriteBatch(new SpriteBatch());
-
-		camera = new Camera();
-		guiCamera = new GuiCamera().setVirtualWidth(1280);
-		Mouse.setCurrentCamera(camera.camera);
-		Mouse.setCurrentGuiCamera(guiCamera.camera);
 
 		// Load grid texture.
 		grid = new TextureRegion(new Texture("textures/grid.png"));

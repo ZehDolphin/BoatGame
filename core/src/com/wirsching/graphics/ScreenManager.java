@@ -2,6 +2,9 @@ package com.wirsching.graphics;
 
 import java.util.HashMap;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
+
 /**
  * Keep track of all screens.
  *
@@ -14,6 +17,7 @@ public class ScreenManager {
 	
 	public static void setSelected(String selected) {
 		ScreenManager.selected = selected;
+		getSelected().selected();
 	}
 	
 	public static void add(Screen screen) {
@@ -34,10 +38,21 @@ public class ScreenManager {
 	
 	public static void update() {
 		getSelected().update();
+		getSelected().updateGUI();
 	}
 	
 	public static void render() {
+		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
 		getSelected().render();
+		
+		Graphics.getGuiSpriteBatch().setProjectionMatrix(getSelected().guiCamera.getProjectionMatrix());
+		Graphics.getGuiSpriteBatch().begin();
+		{
+			getSelected().drawGUI();
+		}
+		Graphics.getGuiSpriteBatch().end();
 	}
 	
 	public static void dispose() {

@@ -2,8 +2,12 @@ package com.wirsching;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.wirsching.graphics.Graphics;
 import com.wirsching.graphics.ScreenManager;
 import com.wirsching.graphics.screens.GameScreen;
+import com.wirsching.graphics.screens.MenuScreen;
 import com.wirsching.input.Keys;
 import com.wirsching.network.GameClient;
 
@@ -21,8 +25,13 @@ public class BoatGame extends ApplicationAdapter {
 
 		// Loads all resources.
 		Resources.load();
+		
+		Graphics.setSpriteBatch(new SpriteBatch());
+		Graphics.setShapeRenderer(new ShapeRenderer());
+		Graphics.setGuiSpriteBatch(new SpriteBatch());
 
 		ScreenManager.add(new GameScreen());
+		ScreenManager.add(new MenuScreen());
 
 		ScreenManager.setSelected("GAME");
 

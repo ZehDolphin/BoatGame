@@ -22,7 +22,7 @@ public class GuiPanel extends GuiComponent {
 
 	@Override
 	public void draw() {
-		float tileSize = Resources.getTextureRegion("gui_panel/0:0").getRegionWidth() * 2.0f;
+		float tileSize = Resources.getTextureRegion("gui_panel/0:0").getRegionWidth() * 4.0f;
 
 		// Corners
 		Graphics.drawStaticTexture(Resources.getTextureRegion("gui_panel/0:2"), getX(), getY(), tileSize, tileSize);
