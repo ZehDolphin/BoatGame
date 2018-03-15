@@ -3,9 +3,8 @@ package com.wirsching.input;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector3;
+import com.wirsching.graphics.ScreenManager;
 import com.wirsching.graphics.gui.GuiComponent;
-import com.wirsching.graphics.gui.GuiHandler;
-import com.wirsching.graphics.screens.GameScreen;
 import com.wirsching.math.Point2f;
 
 public class Mouse {
@@ -44,7 +43,7 @@ public class Mouse {
 			Point2f p = new Point2f(Gdx.input.getX(), -Gdx.input.getY() + Gdx.graphics.getHeight());
 			
 			lastTouched = TouchSurface.GAME;
-			for (GuiComponent g : GuiHandler.guis) {
+			for (GuiComponent g : ScreenManager.getSelected().guis) {
 				if (g.contains(p)) {
 					lastTouched = TouchSurface.GUI;
 				}

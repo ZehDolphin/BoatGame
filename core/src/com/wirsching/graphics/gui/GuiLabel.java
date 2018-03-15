@@ -27,6 +27,16 @@ public class GuiLabel extends GuiComponent {
 		centerV = true;
 		return this;
 	}
+	
+	public GuiLabel dontCenterText() {
+		centered = false;
+		return this;
+	}
+
+	public GuiLabel dontCenterVertical() {
+		centerV = false;
+		return this;
+	}
 
 	public GuiLabel setScale(float scale) {
 		font.setScale(scale);
@@ -42,11 +52,6 @@ public class GuiLabel extends GuiComponent {
 		return text;
 	}
 
-	@Override
-	public void update() {
-
-	}
-	
 	@Override
 	public float getWidth() {
 		setWidth(font.getWidth(getText()));

@@ -63,9 +63,20 @@ public abstract class Screen {
 		return null;
 	}
 	
+	public GuiComponent getGlobalGui(String id) {
+		for (GuiComponent g : guis) {
+			if (g.getId().equals(id))
+				return g;
+			GuiComponent child = g.searchChild(id);
+			if (child != null) return child;
+		}
+		return null;
+	}
+	
 	public void updateGUI() {
+		System.out.println("update guis: " + guis.size());
 		for (GuiComponent g : guis)
-			g.update();
+			g.update(-1);
 	}
 	
 	public void drawGUI() {

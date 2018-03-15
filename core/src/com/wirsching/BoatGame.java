@@ -30,10 +30,10 @@ public class BoatGame extends ApplicationAdapter {
 		Graphics.setShapeRenderer(new ShapeRenderer());
 		Graphics.setGuiSpriteBatch(new SpriteBatch());
 
-		ScreenManager.add(new GameScreen());
+//		ScreenManager.add(new GameScreen());
 		ScreenManager.add(new MenuScreen());
 
-		ScreenManager.setSelected("GAME");
+		ScreenManager.setSelected("MENU");
 
 	}
 

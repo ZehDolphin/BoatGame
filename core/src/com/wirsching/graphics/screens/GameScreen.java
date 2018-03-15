@@ -1,26 +1,17 @@
 package com.wirsching.graphics.screens;
 
-import javax.swing.JOptionPane;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.wirsching.BoatGame;
 import com.wirsching.Resources;
 import com.wirsching.captains.Player;
 import com.wirsching.entities.EntityHandler;
 import com.wirsching.entities.ships.Ship;
-import com.wirsching.graphics.Camera;
 import com.wirsching.graphics.Graphics;
-import com.wirsching.graphics.GuiCamera;
 import com.wirsching.graphics.Screen;
-import com.wirsching.graphics.gui.GuiHandler;
 import com.wirsching.graphics.gui.GuiLabel;
-import com.wirsching.graphics.gui.GuiPanel;
-import com.wirsching.input.Mouse;
 import com.wirsching.network.GameClient;
 import com.wirsching.network.packets.SyncPlayer;
 
@@ -56,10 +47,8 @@ public class GameScreen extends Screen {
 		// Create the local player.
 		player = new Player(name);
 
-		GuiHandler.addGui(new GuiPanel(50, 50, 200, 200)
-				.add(new GuiLabel(100, 170).setText("Hello World!").centerText().setScale(0.8f)));
 
-		GuiHandler.addGui(fpsLabel);
+		addGui(fpsLabel);
 
 		
 		// Start the client.
@@ -89,8 +78,6 @@ public class GameScreen extends Screen {
 		// Updates all entities localy.
 		EntityHandler.update();
 		
-		GuiHandler.update();
-
 		fpsLabel.setY(Graphics.getHeight() - fpsLabel.getHeight() - 3);
 		fpsLabel.setScale(0.8f);
 		fpsLabel.setText("FPS: " + Gdx.graphics.getFramesPerSecond());
@@ -140,12 +127,6 @@ public class GameScreen extends Screen {
 		}
 		Graphics.end();
 
-		Graphics.getGuiSpriteBatch().setProjectionMatrix(guiCamera.getProjectionMatrix());
-		Graphics.getGuiSpriteBatch().begin();
-		{
-			GuiHandler.draw();
-		}
-		Graphics.getGuiSpriteBatch().end();
 
 	}
 

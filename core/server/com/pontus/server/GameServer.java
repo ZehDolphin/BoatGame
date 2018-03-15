@@ -63,7 +63,7 @@ public class GameServer extends Thread {
 		try {
 
 			// Connect to the database.
-			conn = DriverManager.getConnection("jdbc:mysql://pontuswirsching.com/boat_game_eu1?user=webmaster&password=Fiskar99");
+			conn = DriverManager.getConnection("jdbc:mysql://pontuswirsching.com/boat_game_eu1?user=datapipe&password=password");
 
 			Statement s = conn.createStatement();
 

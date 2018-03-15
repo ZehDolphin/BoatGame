@@ -16,11 +16,6 @@ public class GuiPanel extends GuiComponent {
 	}
 
 	@Override
-	public void update() {
-		
-	}
-
-	@Override
 	public void draw() {
 		float tileSize = Resources.getTextureRegion("gui_panel/0:0").getRegionWidth() * 4.0f;
 

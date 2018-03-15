@@ -46,6 +46,7 @@ public class Resources {
 	public static void load() {
 		add("boats", new SpriteSheet("textures/boats"));
 		add("projectiles", new SpriteSheet("textures/projectiles"));
+		add("icons", new SpriteSheet("textures/icons"));
 		add("gui_panel", new SpriteSheet(new Texture("textures/window.png")).loadGrid(10, 10));
 		
 		add("gui_button", new SpriteSheet(new Texture("textures/input.png")).loadGrid(2, 2));
